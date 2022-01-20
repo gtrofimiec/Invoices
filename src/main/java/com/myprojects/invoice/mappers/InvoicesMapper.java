@@ -17,6 +17,7 @@ public class InvoicesMapper {
         ProductsMapper productsMapper = new ProductsMapper();
         UserMapper userMapper = new UserMapper();
         Invoices invoice = new Invoices();
+            invoice.setId(invoiceDto.getId());
             invoice.setNumber(invoiceDto.getNumber());
             invoice.setDate(invoiceDto.getDate());
             invoice.setCustomer(customersMapper.mapToCustomer(invoiceDto.getCustomerDto()));
@@ -30,6 +31,7 @@ public class InvoicesMapper {
         ProductsMapper productsMapper = new ProductsMapper();
         UserMapper userMapper = new UserMapper();
         InvoicesDto invoiceDto = new InvoicesDto();
+        invoiceDto.setId(invoice.getId());
             invoiceDto.setNumber(invoice.getNumber());
             invoiceDto.setDate(invoice.getDate());
             invoiceDto.setCustomerDto(customersMapper.mapToCustomerDto(invoice.getCustomer()));

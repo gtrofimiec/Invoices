@@ -32,4 +32,12 @@ public class UserFacade {
         userService.save(newUser);
         return userMapper.mapToUserDto(newUser);
     }
+
+    public UserDto updateUser(Long id, UserDto userDto)
+            throws UserNotFoundException {
+        User updatedUser = userMapper.mapToUser(userDto);
+        updatedUser.setId(id);
+        userService.update(updatedUser);
+        return userMapper.mapToUserDto(updatedUser);
+    }
 }

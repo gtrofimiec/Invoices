@@ -1,12 +1,9 @@
 package com.myprojects.invoice.controllers;
 
-import com.myprojects.invoice.domain.User;
 import com.myprojects.invoice.domain.dtos.UserDto;
 import com.myprojects.invoice.exceptions.UserAlreadyExistsException;
 import com.myprojects.invoice.exceptions.UserNotFoundException;
 import com.myprojects.invoice.facade.UserFacade;
-import com.myprojects.invoice.mappers.UserMapper;
-import com.myprojects.invoice.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +16,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("v1/invoices")
 public class UserController {
 
-    private final UserService userService;
-    private final UserMapper userMapper;
     private final UserFacade userFacade;
 
     @RequestMapping(method = RequestMethod.GET, value = "/users")
@@ -41,16 +36,8 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/users/{id}")
-    public UserDto updateUser(@PathVariable("id") Long id, @RequestBody UserDto userDto)
+    public UserDto updateUser(@PathVariable("id") Long userId, @RequestBody UserDto userDto)
             throws UserNotFoundException {
-        User updatedUser = userMapper.mapToUser(userDto);
-        updatedUser.setId(id);
-        userService.update(updatedUser);
-        return userMapper.mapToUserDto(updatedUser);
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/users/{id}")
-    public void deleteUser(@PathVariable("id") Long id) throws UserNotFoundException {
-        userService.delete(id);
+        return userFacade.updateUser(userId, userDto);
     }
 }

@@ -14,6 +14,7 @@ public class ProductsMapper {
 
     public Products mapToProduct(final @NotNull ProductsDto productDto) throws ProductNotFoundException {
         Products product = new Products();
+            product.setId(productDto.getId());
             product.setName(productDto.getName());
             product.setVatRate(productDto.getVatRate());
             product.setNetPrice(productDto.getNetPrice());
@@ -24,6 +25,7 @@ public class ProductsMapper {
 
     public ProductsDto mapToProductDto(final @NotNull Products product) {
         ProductsDto productDto = new ProductsDto();
+            productDto.setId(product.getId());
             productDto.setName(product.getName());
             productDto.setVatRate(product.getVatRate());
             productDto.setNetPrice(product.getNetPrice());

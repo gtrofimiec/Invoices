@@ -14,6 +14,7 @@ public class UserMapper {
 
     public User mapToUser(final @NotNull UserDto userDto) throws UserNotFoundException {
         User user = new User();
+            user.setId(userDto.getId());
             user.setFullName(userDto.getFullName());
             user.setNip(userDto.getNip());
             user.setStreet(userDto.getStreet());
@@ -24,6 +25,7 @@ public class UserMapper {
 
     public UserDto mapToUserDto(final @NotNull User user) {
         UserDto userDto = new UserDto();
+            userDto.setId(user.getId());
             userDto.setFullName(user.getFullName());
             userDto.setNip(user.getNip());
             userDto.setStreet(user.getStreet());
