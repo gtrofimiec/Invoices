@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity
@@ -44,17 +43,4 @@ public class Customers {
 
     @Column(name = "deleted")
     private boolean deleted = false;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customers customers = (Customers) o;
-        return deleted == customers.deleted && id.equals(customers.id) && fullName.equals(customers.fullName) && nip.equals(customers.nip) && street.equals(customers.street) && postCode.equals(customers.postCode) && town.equals(customers.town) && invoicesList.equals(customers.invoicesList);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, fullName, nip, street, postCode, town, invoicesList, deleted);
-    }
 }

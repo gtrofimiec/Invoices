@@ -8,8 +8,8 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="user")
-public class User {
+@Table(name="users")
+public class Users {
 
     @Id
     @GeneratedValue
@@ -36,6 +36,10 @@ public class User {
     @NotNull
     @Column(name="town")
     private String town;
+
+    @NotNull
+    @Column(name = "active")
+    private boolean active = false;
 
     @OneToMany(targetEntity = Invoices.class,
             mappedBy = "user",

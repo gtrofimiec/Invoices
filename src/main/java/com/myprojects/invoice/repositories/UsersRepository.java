@@ -1,6 +1,6 @@
 package com.myprojects.invoice.repositories;
 
-import com.myprojects.invoice.domain.User;
+import com.myprojects.invoice.domain.Users;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UsersRepository extends CrudRepository<Users, Long> {
 
     @Override
-    List<User> findAll();
+    List<Users> findAll();
 
     @Override
-    Optional<User> findById(Long userId);
+    Optional<Users> findById(Long userId);
 
     @Override
-    User save(User user);
+    Users save(Users user);
 
     @Override
     void deleteById(Long userId);

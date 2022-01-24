@@ -17,5 +17,5 @@ public class InvoicesDto {
     private Date date;
     private CustomersDto customerDto;
     private List<ProductsDto> productsDtoList;
-    private UserDto userDto;
+    private UsersDto userDto;
 }

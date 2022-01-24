@@ -15,15 +15,15 @@ import java.util.List;
 @Component
 public class ProductsFacade {
 
-    private final ProductsService productsService;
     private final ProductsMapper productsMapper;
+    private final ProductsService productsService;
 
     public List<ProductsDto> getProducts() {
         return productsMapper.mapToProductsDtoList(productsService.getAll());
     }
 
-    public ProductsDto getProduct(Long id) throws ProductNotFoundException {
-        return productsMapper.mapToProductDto(productsService.getOne(id));
+    public ProductsDto getProduct(Long productId) throws ProductNotFoundException {
+        return productsMapper.mapToProductDto(productsService.getOne(productId));
     }
 
     public ProductsDto createProduct(ProductsDto productsDto) throws ProductNotFoundException,
@@ -33,15 +33,15 @@ public class ProductsFacade {
         return productsMapper.mapToProductDto(newProduct);
     }
 
-    public ProductsDto updateProduct(Long id, ProductsDto productsDto)
+    public ProductsDto updateProduct(Long productId, ProductsDto productsDto)
             throws ProductNotFoundException {
         Products updatedProduct = productsMapper.mapToProduct(productsDto);
-        updatedProduct.setId(id);
+        updatedProduct.setId(productId);
         productsService.update(updatedProduct);
         return productsMapper.mapToProductDto(updatedProduct);
     }
 
-    public void deleteProduct(Long id) throws ProductNotFoundException {
-        productsService.delete(id);
+    public void deleteProduct(Long productId) throws ProductNotFoundException {
+        productsService.delete(productId);
     }
 }

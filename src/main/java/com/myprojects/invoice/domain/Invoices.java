@@ -41,7 +41,7 @@ public class Invoices {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     @Column(name = "deleted")
     private boolean deleted = false;

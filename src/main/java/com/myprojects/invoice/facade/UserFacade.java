@@ -1,7 +1,7 @@
 package com.myprojects.invoice.facade;
 
-import com.myprojects.invoice.domain.User;
-import com.myprojects.invoice.domain.dtos.UserDto;
+import com.myprojects.invoice.domain.Users;
+import com.myprojects.invoice.domain.dtos.UsersDto;
 import com.myprojects.invoice.exceptions.UserAlreadyExistsException;
 import com.myprojects.invoice.exceptions.UserNotFoundException;
 import com.myprojects.invoice.mappers.UserMapper;
@@ -15,29 +15,33 @@ import java.util.List;
 @Component
 public class UserFacade {
 
-    private final UserService userService;
     private final UserMapper userMapper;
+    private final UserService userService;
 
-    public List<UserDto> getUsers() {
+    public List<UsersDto> getUsers() {
         return userMapper.mapToUserDtoList(userService.getAll());
     }
 
-    public UserDto getUser(Long id) throws UserNotFoundException {
-        return userMapper.mapToUserDto(userService.getOne(id));
+    public UsersDto getUser(Long userId) throws UserNotFoundException {
+        return userMapper.mapToUserDto(userService.getOne(userId));
     }
 
-    public UserDto createUser(UserDto userDto) throws UserNotFoundException,
+    public UsersDto createUser(UsersDto userDto) throws UserNotFoundException,
             UserAlreadyExistsException {
-        User newUser = userMapper.mapToUser(userDto);
+        Users newUser = userMapper.mapToUser(userDto);
         userService.save(newUser);
         return userMapper.mapToUserDto(newUser);
     }
 
-    public UserDto updateUser(Long id, UserDto userDto)
+    public UsersDto updateUser(Long userId, UsersDto userDto)
             throws UserNotFoundException {
-        User updatedUser = userMapper.mapToUser(userDto);
-        updatedUser.setId(id);
+        Users updatedUser = userMapper.mapToUser(userDto);
+        updatedUser.setId(userId);
         userService.update(updatedUser);
         return userMapper.mapToUserDto(updatedUser);
+    }
+
+    public void deleteUser(Long userId) throws UserNotFoundException {
+        userService.delete(userId);
     }
 }

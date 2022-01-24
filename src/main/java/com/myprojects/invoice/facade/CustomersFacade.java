@@ -22,8 +22,8 @@ public class CustomersFacade {
         return customersMapper.mapToCustomersDtoList(customersService.getAll());
     }
 
-    public CustomersDto getCustomer(Long id) throws CustomerNotFoundException {
-        return customersMapper.mapToCustomerDto(customersService.getOne(id));
+    public CustomersDto getCustomer(Long customerId) throws CustomerNotFoundException {
+        return customersMapper.mapToCustomerDto(customersService.getOne(customerId));
     }
 
     public CustomersDto createCustomer(CustomersDto customerDto) throws CustomerNotFoundException,
@@ -33,15 +33,15 @@ public class CustomersFacade {
         return customersMapper.mapToCustomerDto(newCustomer);
     }
 
-    public CustomersDto updateCustomer(Long id, CustomersDto customerDto)
+    public CustomersDto updateCustomer(Long customerId, CustomersDto customerDto)
             throws CustomerNotFoundException {
         Customers updatedCustomer = customersMapper.mapToCustomer(customerDto);
-        updatedCustomer.setId(id);
+        updatedCustomer.setId(customerId);
         customersService.update(updatedCustomer);
         return customersMapper.mapToCustomerDto(updatedCustomer);
     }
 
-    public void deleteCustomer(Long id) throws CustomerNotFoundException {
-        customersService.delete(id);
+    public void deleteCustomer(Long customerId) throws CustomerNotFoundException {
+        customersService.delete(customerId);
     }
 }

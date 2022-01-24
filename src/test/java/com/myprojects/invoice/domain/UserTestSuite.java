@@ -1,6 +1,6 @@
 package com.myprojects.invoice.domain;
 
-import com.myprojects.invoice.repositories.UserRepository;
+import com.myprojects.invoice.repositories.UsersRepository;
 import com.myprojects.invoice.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class UserTestSuite {
 
     @Autowired
-    private UserRepository userRepository;
+    private UsersRepository usersRepository;
 
     @Autowired
     private UserService userService;
@@ -27,47 +27,47 @@ public class UserTestSuite {
     public void shouldFindUserById() {
 
         // Given
-        User user = new User();
+        Users user = new Users();
 
         // When
-        userRepository.save(user);
+        usersRepository.save(user);
         Long id = user.getId();
-        Optional<User> foundUser = userRepository.findById(id);
+        Optional<Users> foundUser = usersRepository.findById(id);
 
         // Then
         assertNotNull(foundUser);
         assertEquals(id, foundUser.get().getId());
 
         // Clean Up
-        userRepository.deleteById(id);
+        usersRepository.deleteById(id);
     }
 
     @Test
     public void shouldSaveUser() {
 
         // Given
-        User user = new User();
+        Users user = new Users();
         user.setFullName("Full name");
 
         // When
-        userRepository.save(user);
+        usersRepository.save(user);
         Long id = user.getId();
-        Optional<User> savedUser = userRepository.findById(id);
+        Optional<Users> savedUser = usersRepository.findById(id);
         String fullName = savedUser.get().getFullName();
 
         // Then
         assertEquals("Full name", fullName);
 
         // Clean Up
-        userRepository.deleteById(id);
+        usersRepository.deleteById(id);
     }
 
     @Test
     public void shouldUpdateUser() {
 
         // Given
-        User user = new User();
-        User updatedUser = new User();
+        Users user = new Users();
+        Users updatedUser = new Users();
         user.setFullName("Full name");
         updatedUser.setFullName("Updated full name");
 
@@ -76,30 +76,30 @@ public class UserTestSuite {
         Long id = user.getId();
         updatedUser.setId(id);
         userService.update(updatedUser);
-        User actualUser = userService.getOne(id);
+        Users actualUser = userService.getOne(id);
 
         // Then
-        assertTrue(userRepository.existsById(id));
+        assertTrue(usersRepository.existsById(id));
         assertEquals(updatedUser.getId(), actualUser.getId());
         assertEquals(updatedUser.getFullName(), actualUser.getFullName());
         assertNotEquals(user.getFullName(), actualUser.getFullName());
 
         // Clean Up
-        userRepository.deleteById(id);
+        usersRepository.deleteById(id);
     }
 
     @Test
     public void shouldDeleteUserById() {
 
         // Given
-        User user = new User();
+        Users user = new Users();
 
         // When
-        userRepository.save(user);
+        usersRepository.save(user);
         Long id = user.getId();
-        userRepository.deleteById(id);
-        Optional<User> removedUser = userRepository.findById(id);
-        int availableUsers = userRepository.findAll().size();
+        usersRepository.deleteById(id);
+        Optional<Users> removedUser = usersRepository.findById(id);
+        int availableUsers = usersRepository.findAll().size();
 
         // Then
         assertEquals(Optional.empty(), removedUser);

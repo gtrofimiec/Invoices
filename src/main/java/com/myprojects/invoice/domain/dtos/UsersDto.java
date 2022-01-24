@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class UserDto {
+public class UsersDto {
 
     @JsonProperty("user_id")
     private Long id;
@@ -20,5 +20,7 @@ public class UserDto {
     private String postCode;
     @JsonProperty("town")
     private String town;
+    @JsonProperty("active")
+    private boolean active;
     private List<InvoicesDto> invoicesDtoList;
 }
