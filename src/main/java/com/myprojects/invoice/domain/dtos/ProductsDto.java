@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,5 +22,6 @@ public class ProductsDto {
     private BigDecimal vatValue;
     @JsonProperty("gross_price")
     private BigDecimal grossPrice;
-    private List<InvoicesDto> invoicesDtoList;
+    @JsonProperty("invoices_list")
+    private List<InvoicesDto> invoicesDtoList = new ArrayList<>();
 }

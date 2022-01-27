@@ -12,25 +12,33 @@ import java.util.stream.Collectors;
 @Service
 public class CustomersMapper {
 
-    public Customers mapToCustomer(final @NotNull CustomersDto customerDto) throws CustomerNotFoundException {
+    public Customers mapToCustomer(final @NotNull CustomersDto customerDto)
+            throws CustomerNotFoundException {
+//        InvoicesMapper invoicesMapper = new InvoicesMapper();
         Customers customer = new Customers();
             customer.setId(customerDto.getId());
             customer.setFullName(customerDto.getFullName());
             customer.setNip(customerDto.getNip());
             customer.setStreet(customerDto.getStreet());
-            customer.setPostCode(customerDto.getPostcode());
+            customer.setPostCode(customerDto.getPostCode());
             customer.setTown(customerDto.getTown());
+//            customer.setInvoicesList(invoicesMapper.mapToInvoicesList(
+//                    customerDto.getInvoicesDtoList()));
         return customer;
     }
 
-    public CustomersDto mapToCustomerDto(final @NotNull Customers customer) throws CustomerNotFoundException {
+    public CustomersDto mapToCustomerDto(final @NotNull Customers customer)
+            throws CustomerNotFoundException {
+//        InvoicesMapper invoicesMapper = new InvoicesMapper();
         CustomersDto customerDto = new CustomersDto();
             customerDto.setId(customer.getId());
             customerDto.setFullName(customer.getFullName());
             customerDto.setNip(customer.getNip());
             customerDto.setStreet(customer.getStreet());
-            customerDto.setPostcode(customer.getPostCode());
+            customerDto.setPostCode(customer.getPostCode());
             customerDto.setTown(customer.getTown());
+//            customerDto.setInvoicesDtoList(invoicesMapper.mapToInvoicesDtoList(
+//                    customer.getInvoicesList()));
         return customerDto;
     }
 

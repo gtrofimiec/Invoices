@@ -32,7 +32,7 @@ public class CustomersController {
             consumes = APPLICATION_JSON_VALUE)
     public CustomersDto createCustomer(@RequestBody CustomersDto customerDto) throws CustomerNotFoundException,
             CustomerAlreadyExistsException {
-        return customersFacade.createCustomer(customerDto);
+        return customersFacade.saveCustomer(customerDto);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/customers/{id}")

@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +13,10 @@ import java.util.List;
 @Entity
 @Table(name="invoices")
 public class Invoices {
+
+    public Invoices() {
+        this.productsList = new ArrayList<>();
+    }
 
     @Id
     @GeneratedValue
@@ -26,20 +32,33 @@ public class Invoices {
     @Column(name="date")
     private Date date;
 
-    @ManyToOne
+    @NotNull
+    @Column(name="net_sum")
+    private BigDecimal netSum;
+
+    @NotNull
+    @Column(name="vat_sum")
+    private BigDecimal vatSum;
+
+    @NotNull
+    @Column(name="gross_sum")
+    private BigDecimal grossSum;
+
+    @NotNull
+    @Column(name="payment_method")
+    private String paymentMethod;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customers customer;
 
     @ManyToMany(mappedBy = "invoicesList",
-            cascade = {
-                CascadeType.REFRESH,
-                CascadeType.DETACH,
-                CascadeType.REMOVE
-            },
-            fetch = FetchType.LAZY)
+            cascade = CascadeType.ALL)
     private List<Products> productsList;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "user_id")
     private Users user;
 

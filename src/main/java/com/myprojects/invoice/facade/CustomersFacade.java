@@ -26,7 +26,7 @@ public class CustomersFacade {
         return customersMapper.mapToCustomerDto(customersService.getOne(customerId));
     }
 
-    public CustomersDto createCustomer(CustomersDto customerDto) throws CustomerNotFoundException,
+    public CustomersDto saveCustomer(CustomersDto customerDto) throws CustomerNotFoundException,
             CustomerAlreadyExistsException {
         Customers newCustomer = customersMapper.mapToCustomer(customerDto);
         customersService.save(newCustomer);

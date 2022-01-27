@@ -23,17 +23,18 @@ public class InvoicesFacade {
     private final UserService userService;
 
     public List<InvoicesDto> getInvoices() {
+        List<InvoicesDto> list = invoicesMapper.mapToInvoicesDtoList(invoicesService.getAll());
         return invoicesMapper.mapToInvoicesDtoList(invoicesService.getAll());
     }
 
-    public InvoicesDto getInvoices(Long id) throws InvoicesNotFoundException {
+    public InvoicesDto getInvoice(Long id) throws InvoicesNotFoundException {
         return invoicesMapper.mapToInvoiceDto(invoicesService.getOne(id));
     }
 
-    public InvoicesDto saveInvoice(Long userId, InvoicesDto invoiceDto)
+    public InvoicesDto saveInvoice(InvoicesDto invoiceDto)
             throws InvoiceAlreadyExistsException {
         Invoices newInvoice = invoicesMapper.mapToInvoice(invoiceDto);
-        newInvoice.setUser(userService.getOne(userId));
+//        newInvoice.setUser(userService.getOne(userId));
         invoicesService.save(newInvoice);
         return invoicesMapper.mapToInvoiceDto(newInvoice);
     }

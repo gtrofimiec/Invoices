@@ -4,6 +4,7 @@ import com.myprojects.invoice.domain.Invoices;
 import com.myprojects.invoice.domain.dtos.InvoicesDto;
 import com.myprojects.invoice.exceptions.InvoicesNotFoundException;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,14 +13,25 @@ import java.util.stream.Collectors;
 @Service
 public class InvoicesMapper {
 
+    @Autowired
+    CustomersMapper customersMapper;
+    @Autowired
+    ProductsMapper productsMapper;
+    @Autowired
+    UserMapper userMapper;
+
     public Invoices mapToInvoice(final @NotNull InvoicesDto invoiceDto) throws InvoicesNotFoundException {
-        CustomersMapper customersMapper = new CustomersMapper();
-        ProductsMapper productsMapper = new ProductsMapper();
-        UserMapper userMapper = new UserMapper();
+
+//        ProductsMapper productsMapper = new ProductsMapper();
+//        UserMapper userMapper = new UserMapper();
         Invoices invoice = new Invoices();
             invoice.setId(invoiceDto.getId());
             invoice.setNumber(invoiceDto.getNumber());
             invoice.setDate(invoiceDto.getDate());
+            invoice.setNetSum(invoiceDto.getNetSum());
+            invoice.setVatSum(invoiceDto.getVatSum());
+            invoice.setGrossSum(invoiceDto.getGrossSum());
+            invoice.setPaymentMethod(invoiceDto.getPaymentMethod());
             invoice.setCustomer(customersMapper.mapToCustomer(invoiceDto.getCustomerDto()));
             invoice.setProductsList(productsMapper.mapToProductsList(invoiceDto.getProductsDtoList()));
             invoice.setUser(userMapper.mapToUser(invoiceDto.getUserDto()));
@@ -27,13 +39,17 @@ public class InvoicesMapper {
     }
 
     public InvoicesDto mapToInvoiceDto(final @NotNull Invoices invoice) {
-        CustomersMapper customersMapper = new CustomersMapper();
-        ProductsMapper productsMapper = new ProductsMapper();
-        UserMapper userMapper = new UserMapper();
+//        CustomersMapper customersMapper = new CustomersMapper();
+//        ProductsMapper productsMapper = new ProductsMapper();
+//        UserMapper userMapper = new UserMapper();
         InvoicesDto invoiceDto = new InvoicesDto();
-        invoiceDto.setId(invoice.getId());
+            invoiceDto.setId(invoice.getId());
             invoiceDto.setNumber(invoice.getNumber());
             invoiceDto.setDate(invoice.getDate());
+            invoice.setNetSum(invoiceDto.getNetSum());
+            invoice.setVatSum(invoiceDto.getVatSum());
+            invoice.setGrossSum(invoiceDto.getGrossSum());
+            invoice.setPaymentMethod(invoiceDto.getPaymentMethod());
             invoiceDto.setCustomerDto(customersMapper.mapToCustomerDto(invoice.getCustomer()));
             invoiceDto.setProductsDtoList(productsMapper.mapToProductsDtoList(invoice.getProductsList()));
             invoiceDto.setUserDto(userMapper.mapToUserDto(invoice.getUser()));
@@ -43,6 +59,12 @@ public class InvoicesMapper {
     public List<InvoicesDto> mapToInvoicesDtoList(final @NotNull List<Invoices> invoicesList) {
         return invoicesList.stream()
                 .map(this::mapToInvoiceDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<Invoices> mapToInvoicesList(final @NotNull List<InvoicesDto> invoicesDtoList) {
+        return invoicesDtoList.stream()
+                .map(this::mapToInvoice)
                 .collect(Collectors.toList());
     }
 }

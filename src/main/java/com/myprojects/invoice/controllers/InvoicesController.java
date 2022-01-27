@@ -26,14 +26,14 @@ public class InvoicesController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/invoices/{id}")
-    public InvoicesDto getInvoices(@PathVariable("id") Long invoiceId) throws InvoicesNotFoundException {
-        return invoicesFacade.getInvoices(invoiceId);
+    public InvoicesDto getInvoice(@PathVariable("id") Long invoiceId) throws InvoicesNotFoundException {
+        return invoicesFacade.getInvoice(invoiceId);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/invoices/{userId}", consumes = APPLICATION_JSON_VALUE)
-    public InvoicesDto saveInvoice(@PathVariable("userId") Long userId, @RequestBody InvoicesDto invoiceDto)
+    @RequestMapping(method = RequestMethod.POST, value = "/invoices", consumes = APPLICATION_JSON_VALUE)
+    public InvoicesDto saveInvoice(@RequestBody InvoicesDto invoiceDto)
             throws InvoiceAlreadyExistsException {
-        return invoicesFacade.saveInvoice(userId, invoiceDto);
+        return invoicesFacade.saveInvoice(invoiceDto);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/invoices/{invoiceId}/add/{customerId}")

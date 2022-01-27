@@ -42,10 +42,10 @@ public class InvoicesService {
     }
 
     public Invoices save(final @NotNull Invoices invoice) throws InvoiceAlreadyExistsException {
-        Long id = invoice.getId();
-        if (id != null && invoicesRepository.existsById(id)) {
-            throw new InvoiceAlreadyExistsException();
-        }
+//        Long id = invoice.getId();
+//        if (id != null && invoicesRepository.existsById(id)) {
+//            throw new InvoiceAlreadyExistsException();
+//        }
         return invoicesRepository.save(invoice);
     }
 

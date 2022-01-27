@@ -5,12 +5,17 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name="products")
 public class Products {
+
+    public Products() {
+        this.invoicesList = new ArrayList<>();
+    }
 
     @Id
     @GeneratedValue
@@ -38,11 +43,7 @@ public class Products {
     @Column(name="gross_price")
     private BigDecimal grossPrice;
 
-    @ManyToMany(cascade = {
-            CascadeType.REFRESH,
-            CascadeType.DETACH
-    },
-            fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name ="invoices_has_products",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id")}

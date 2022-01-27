@@ -3,6 +3,7 @@ package com.myprojects.invoice.domain.dtos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,5 +23,6 @@ public class UsersDto {
     private String town;
     @JsonProperty("active")
     private boolean active;
-    private List<InvoicesDto> invoicesDtoList;
+    @JsonProperty("invoices_list")
+    private List<InvoicesDto> invoicesDtoList = new ArrayList<>();
 }

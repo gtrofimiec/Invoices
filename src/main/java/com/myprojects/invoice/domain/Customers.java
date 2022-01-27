@@ -4,12 +4,17 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name="customers")
 public class Customers {
+
+    public Customers() {
+        this.invoicesList = new ArrayList<>();
+    }
 
     @Id
     @GeneratedValue
@@ -35,9 +40,7 @@ public class Customers {
 
     @OneToMany(targetEntity = Invoices.class,
             mappedBy = "customer",
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.REMOVE},
+            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private List<Invoices> invoicesList;
 
