@@ -19,47 +19,82 @@ public class UserTestSuite {
 
     @Autowired
     private UsersRepository usersRepository;
-
     @Autowired
     private UserService userService;
+
+    @Test
+    public void shouldFindAllUsers() {
+
+        // Given
+        long currentNumberOfUsers = usersRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
+        Users user1 = new Users();
+        Users user2 = new Users();
+
+        // When
+        usersRepository.save(user1);
+        usersRepository.save(user2);
+        long availableUsers = usersRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
+
+        // Then
+        assertEquals(currentNumberOfUsers + 2, availableUsers);
+
+        // Clean Up
+        usersRepository.deleteById(user1.getId());
+        usersRepository.deleteById(user2.getId());
+    }
 
     @Test
     public void shouldFindUserById() {
 
         // Given
-        Users user = new Users();
+        Users user1 = new Users();
+        Users user2 = new Users();
 
         // When
-        usersRepository.save(user);
-        Long id = user.getId();
-        Optional<Users> foundUser = usersRepository.findById(id);
+        usersRepository.save(user1);
+        usersRepository.save(user2);
+        Long user1Id = user1.getId();
+        Optional<Users> foundUser = usersRepository.findById(user1Id);
 
         // Then
         assertNotNull(foundUser);
-        assertEquals(id, foundUser.get().getId());
+        assertEquals(user1Id, foundUser.get().getId());
 
         // Clean Up
-        usersRepository.deleteById(id);
+        usersRepository.deleteById(user1Id);
+        usersRepository.deleteById(user2.getId());
     }
 
     @Test
     public void shouldSaveUser() {
 
         // Given
-        Users user = new Users();
-        user.setFullName("Full name");
+        Users user1 = new Users();
+        Users user2 = new Users();
+        user1.setFullName("User1");
+        user2.setFullName("User2");
 
         // When
-        usersRepository.save(user);
-        Long id = user.getId();
-        Optional<Users> savedUser = usersRepository.findById(id);
-        String fullName = savedUser.get().getFullName();
+        usersRepository.save(user1);
+        usersRepository.save(user2);
+        Long User1Id = user1.getId();
+        Long User2Id = user2.getId();
+        Optional<Users> savedUser1 = usersRepository.findById(User1Id);
+        Optional<Users> savedUser2 = usersRepository.findById(User2Id);
+        String fullName1 = savedUser1.get().getFullName();
+        String fullName2 = savedUser2.get().getFullName();
 
         // Then
-        assertEquals("Full name", fullName);
+        assertEquals("User1", fullName1);
+        assertEquals("User2", fullName2);
 
         // Clean Up
-        usersRepository.deleteById(id);
+        usersRepository.deleteById(User1Id);
+        usersRepository.deleteById(User2Id);
     }
 
     @Test
@@ -67,42 +102,44 @@ public class UserTestSuite {
 
         // Given
         Users user = new Users();
-        Users updatedUser = new Users();
-        user.setFullName("Full name");
-        updatedUser.setFullName("Updated full name");
 
         // When
         userService.save(user);
-        Long id = user.getId();
-        updatedUser.setId(id);
-        userService.update(updatedUser);
-        Users actualUser = userService.getOne(id);
+        user.setFullName("Full name");
+        userService.update(user);
+        Long Userid = user.getId();
+        Users actualUser = userService.getOne(Userid);
 
         // Then
-        assertTrue(usersRepository.existsById(id));
-        assertEquals(updatedUser.getId(), actualUser.getId());
-        assertEquals(updatedUser.getFullName(), actualUser.getFullName());
-        assertNotEquals(user.getFullName(), actualUser.getFullName());
+        assertTrue(usersRepository.existsById(Userid));
+        assertEquals("Full name", actualUser.getFullName());
 
         // Clean Up
-        usersRepository.deleteById(id);
+        usersRepository.deleteById(Userid);
     }
 
     @Test
     public void shouldDeleteUserById() {
 
         // Given
-        Users user = new Users();
+        long currentNumberOfUsers = usersRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
+        Users user1 = new Users();
+        Users user2 = new Users();
 
         // When
-        usersRepository.save(user);
-        Long id = user.getId();
-        usersRepository.deleteById(id);
-        Optional<Users> removedUser = usersRepository.findById(id);
-        int availableUsers = usersRepository.findAll().size();
+        usersRepository.save(user1);
+        usersRepository.save(user2);
+        Long user1Id = user1.getId();
+        usersRepository.deleteById(user1Id);
+        Optional<Users> removedUser = usersRepository.findById(user1Id);
+        long availableUsers = usersRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
 
         // Then
         assertEquals(Optional.empty(), removedUser);
-        assertEquals(0, availableUsers);
+        assertEquals(currentNumberOfUsers + 1, availableUsers);
     }
 }

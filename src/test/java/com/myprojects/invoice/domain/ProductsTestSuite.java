@@ -19,7 +19,6 @@ public class ProductsTestSuite {
 
     @Autowired
     private ProductsRepository productsRepository;
-
     @Autowired
     private ProductsService productsService;
 
@@ -27,15 +26,21 @@ public class ProductsTestSuite {
     public void shouldFindAllProducts() {
 
         // Given
+        long currentNumberOfProducts = productsRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
         Products product1 = new Products();
         Products product2 = new Products();
 
         // When
         productsRepository.save(product1);
         productsRepository.save(product2);
+        long availableProducts = productsRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
 
         // Then
-        assertEquals(2, productsRepository.findAll().size());
+        assertEquals(currentNumberOfProducts + 2, availableProducts);
 
         // Clean Up
         productsRepository.deleteById(product1.getId());
@@ -52,15 +57,15 @@ public class ProductsTestSuite {
         // When
         productsRepository.save(product1);
         productsRepository.save(product2);
-        Long id = product1.getId();
-        Optional<Products> foundProduct = productsRepository.findById(id);
+        Long product1Id = product1.getId();
+        Optional<Products> foundProduct = productsRepository.findById(product1Id);
 
         // Then
         assertNotNull(foundProduct);
-        assertEquals(id, foundProduct.get().getId());
+        assertEquals(product1Id, foundProduct.get().getId());
 
         // Clean Up
-        productsRepository.deleteById(product1.getId());
+        productsRepository.deleteById(product1Id);
         productsRepository.deleteById(product2.getId());
     }
 
@@ -88,8 +93,8 @@ public class ProductsTestSuite {
         assertEquals("Product2", name2);
 
         // Clean Up
-        productsRepository.deleteById(product1.getId());
-        productsRepository.deleteById(product2.getId());
+        productsRepository.deleteById(product1Id);
+        productsRepository.deleteById(product2Id);
     }
 
     @Test
@@ -97,45 +102,45 @@ public class ProductsTestSuite {
 
         // Given
         Products product = new Products();
-        Products updatedProduct = new Products();
-        product.setName("Product1");
-        updatedProduct.setName("Product2");
 
         // When
         productsService.save(product);
-        Long id = product.getId();
-        updatedProduct.setId(id);
-        productsService.update(updatedProduct);
-        Products actualProduct = productsService.getOne(id);
+        product.setName("Product1");
+        productsService.update(product);
+        Long productId = product.getId();
+        Products actualProduct = productsService.getOne(productId);
 
         // Then
-        assertTrue(productsRepository.existsById(id));
-        assertEquals(updatedProduct.getId(), actualProduct.getId());
-        assertEquals(updatedProduct.getName(), actualProduct.getName());
-        assertNotEquals(product.getName(), actualProduct.getName());
+        assertTrue(productsRepository.existsById(productId));
+        assertEquals("Product1", actualProduct.getName());
 
         // Clean Up
-        productsRepository.deleteById(product.getId());
+        productsRepository.deleteById(productId);
     }
 
     @Test
     public void shouldDeleteProductById() {
 
         // Given
+        long currentNumberOfProducts = productsRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
         Products product1 = new Products();
         Products product2 = new Products();
 
         // When
         productsRepository.save(product1);
         productsRepository.save(product2);
-        Long id = product1.getId();
-        productsRepository.deleteById(id);
-        Optional<Products> removedProduct = productsRepository.findById(id);
-        int storedProducts = productsRepository.findAll().size();
+        Long product1Id = product1.getId();
+        productsRepository.deleteById(product1Id);
+        Optional<Products> removedProduct = productsRepository.findById(product1Id);
+        long availableProducts = productsRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
 
         // Then
         assertEquals(Optional.empty(), removedProduct);
-        assertEquals(1, storedProducts);
+        assertEquals( currentNumberOfProducts + 1, availableProducts);
 
         // Clean Up
         productsRepository.deleteById(product2.getId());

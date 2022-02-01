@@ -10,18 +10,18 @@ import java.util.List;
 @Data
 public class ProductsDto {
 
-    @JsonProperty("product_id")
+    @JsonProperty
     private Long id;
-    @JsonProperty("name")
+    @JsonProperty
     private String name;
-    @JsonProperty("vat_rate")
+    @JsonProperty
     private int vatRate;
-    @JsonProperty("net_price")
+    @JsonProperty
     private BigDecimal netPrice;
-    @JsonProperty("vat_value")
+    @JsonProperty
     private BigDecimal vatValue;
-    @JsonProperty("gross_price")
+    @JsonProperty
     private BigDecimal grossPrice;
-    @JsonProperty("invoices_list")
+    @JsonProperty
     private List<InvoicesDto> invoicesDtoList = new ArrayList<>();
 }

@@ -26,7 +26,7 @@ public class ProductsFacade {
         return productsMapper.mapToProductDto(productsService.getOne(productId));
     }
 
-    public ProductsDto createProduct(ProductsDto productsDto) throws ProductNotFoundException,
+    public ProductsDto saveProduct(ProductsDto productsDto) throws ProductNotFoundException,
             ProductAlreadyExistsException {
         Products newProduct = productsMapper.mapToProduct(productsDto);
         productsService.save(newProduct);

@@ -32,7 +32,7 @@ public class UserController {
             consumes = APPLICATION_JSON_VALUE)
     public UsersDto createUser(@RequestBody UsersDto userDto) throws UserNotFoundException,
             UserAlreadyExistsException {
-        return userFacade.createUser(userDto);
+        return userFacade.saveUser(userDto);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/users/{id}")

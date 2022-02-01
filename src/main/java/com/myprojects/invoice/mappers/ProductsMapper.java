@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 public class ProductsMapper {
 
     public Products mapToProduct(final @NotNull ProductsDto productDto) throws ProductNotFoundException {
-//        InvoicesMapper invoicesMapper = new InvoicesMapper();
         Products product = new Products();
             product.setId(productDto.getId());
             product.setName(productDto.getName());
@@ -21,13 +20,10 @@ public class ProductsMapper {
             product.setNetPrice(productDto.getNetPrice());
             product.setVatValue(productDto.getVatValue());
             product.setGrossPrice(productDto.getGrossPrice());
-//            product.setInvoicesList(invoicesMapper.mapToInvoicesList(
-//                    productDto.getInvoicesDtoList()));
         return product;
     }
 
     public ProductsDto mapToProductDto(final @NotNull Products product) {
-//        InvoicesMapper invoicesMapper = new InvoicesMapper();
         ProductsDto productDto = new ProductsDto();
             productDto.setId(product.getId());
             productDto.setName(product.getName());
@@ -35,8 +31,6 @@ public class ProductsMapper {
             productDto.setNetPrice(product.getNetPrice());
             productDto.setVatValue(product.getVatValue());
             productDto.setGrossPrice(product.getGrossPrice());
-//            productDto.setInvoicesDtoList(invoicesMapper.mapToInvoicesDtoList(
-//                    product.getInvoicesList()));
         return productDto;
     }
 

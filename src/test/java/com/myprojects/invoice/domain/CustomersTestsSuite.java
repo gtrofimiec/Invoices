@@ -1,5 +1,6 @@
 package com.myprojects.invoice.domain;
 
+import com.myprojects.invoice.facade.CustomersFacade;
 import com.myprojects.invoice.repositories.CustomersRepository;
 import com.myprojects.invoice.services.CustomersService;
 import org.junit.Test;
@@ -18,7 +19,8 @@ public class CustomersTestsSuite {
 
     @Autowired
     private CustomersRepository customersRepository;
-
+    @Autowired
+    private CustomersFacade customersFacade;
     @Autowired
     private CustomersService customersService;
 
@@ -26,15 +28,21 @@ public class CustomersTestsSuite {
     public void shouldFindAllCustomers() {
 
         // Given
+        long currentNumberOfCustomers = customersRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
         Customers customer1 = new Customers();
         Customers customer2 = new Customers();
 
         // When
         customersRepository.save(customer1);
         customersRepository.save(customer2);
+        long availableCustomers = customersRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
 
         // Then
-        assertEquals(2, customersRepository.findAll().size());
+        assertEquals(currentNumberOfCustomers + 2, availableCustomers);
 
         // Clean Up
         customersRepository.deleteById(customer1.getId());
@@ -51,15 +59,15 @@ public class CustomersTestsSuite {
         // When
         customersRepository.save(customer1);
         customersRepository.save(customer2);
-        Long id = customer1.getId();
-        Optional<Customers> foundCustomer = customersRepository.findById(id);
+        Long customer1Id = customer1.getId();
+        Optional<Customers> foundCustomer = customersRepository.findById(customer1Id);
 
         // Then
         assertNotNull(foundCustomer);
-        assertEquals(id, foundCustomer.get().getId());
+        assertEquals(customer1Id, foundCustomer.get().getId());
 
         // Clean Up
-        customersRepository.deleteById(customer1.getId());
+        customersRepository.deleteById(customer1Id);
         customersRepository.deleteById(customer2.getId());
     }
 
@@ -87,8 +95,8 @@ public class CustomersTestsSuite {
         assertEquals("7125398412", nip2);
 
         // Clean Up
-        customersRepository.deleteById(customer1.getId());
-        customersRepository.deleteById(customer2.getId());
+        customersRepository.deleteById(customer1Id);
+        customersRepository.deleteById(customer2Id);
     }
 
     @Test
@@ -96,45 +104,45 @@ public class CustomersTestsSuite {
 
         // Given
         Customers customer = new Customers();
-        Customers updatedCustomer = new Customers();
-        customer.setStreet("Street");
-        updatedCustomer.setStreet("Changed street");
 
         // When
         customersService.save(customer);
-        Long id = customer.getId();
-        updatedCustomer.setId(id);
-        customersService.update(updatedCustomer);
-        Customers actualCustomer = customersService.getOne(id);
+        customer.setStreet("Street");
+        customersService.update(customer);
+        Long customerId = customer.getId();
+        Customers actualCustomer = customersService.getOne(customerId);
 
         // Then
-        assertTrue(customersRepository.existsById(id));
-        assertEquals(updatedCustomer.getId(), actualCustomer.getId());
-        assertEquals(updatedCustomer.getStreet(), actualCustomer.getStreet());
-        assertNotEquals(customer.getStreet(), actualCustomer.getStreet());
+        assertTrue(customersRepository.existsById(customerId));
+        assertEquals("Street", actualCustomer.getStreet());
 
         // Clean Up
-        customersRepository.deleteById(customer.getId());
+        customersRepository.deleteById(customerId);
     }
 
     @Test
     public void shouldDeleteCustomerById() {
 
         // Given
+        long currentNumberOfCustomers = customersRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
         Customers customer1 = new Customers();
         Customers customer2 = new Customers();
 
         // When
         customersRepository.save(customer1);
         customersRepository.save(customer2);
-        Long id = customer1.getId();
-        customersRepository.deleteById(id);
-        Optional<Customers> removedCustomer = customersRepository.findById(id);
-        int availableCustomers = customersRepository.findAll().size();
+        Long customer1Id = customer1.getId();
+        customersRepository.deleteById(customer1Id);
+        Optional<Customers> removedCustomer = customersRepository.findById(customer1Id);
+        long availableCustomers = customersRepository.findAll().stream()
+                .filter(c -> !c.isDeleted())
+                .count();
 
         // Then
         assertEquals(Optional.empty(), removedCustomer);
-        assertEquals(1, availableCustomers);
+        assertEquals(currentNumberOfCustomers + 1, availableCustomers);
 
         // Clean Up
         customersRepository.deleteById(customer2.getId());

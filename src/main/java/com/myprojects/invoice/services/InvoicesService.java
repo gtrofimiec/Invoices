@@ -3,13 +3,12 @@ package com.myprojects.invoice.services;
 import com.myprojects.invoice.domain.Customers;
 import com.myprojects.invoice.domain.Invoices;
 import com.myprojects.invoice.domain.Products;
-import com.myprojects.invoice.exceptions.CustomerNotFoundException;
-import com.myprojects.invoice.exceptions.InvoiceAlreadyExistsException;
-import com.myprojects.invoice.exceptions.InvoicesNotFoundException;
-import com.myprojects.invoice.exceptions.ProductNotFoundException;
+import com.myprojects.invoice.domain.Users;
+import com.myprojects.invoice.exceptions.*;
 import com.myprojects.invoice.repositories.CustomersRepository;
 import com.myprojects.invoice.repositories.InvoicesRepository;
 import com.myprojects.invoice.repositories.ProductsRepository;
+import com.myprojects.invoice.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,8 @@ public class InvoicesService {
     private final CustomersRepository customersRepository;
     private final ProductsService productsService;
     private final ProductsRepository productsRepository;
+    private final UserService userService;
+    private final UsersRepository usersRepository;
 
     public List<Invoices> getAll() {
         return invoicesRepository.findAll().stream()
@@ -42,11 +43,36 @@ public class InvoicesService {
     }
 
     public Invoices save(final @NotNull Invoices invoice) throws InvoiceAlreadyExistsException {
-//        Long id = invoice.getId();
-//        if (id != null && invoicesRepository.existsById(id)) {
-//            throw new InvoiceAlreadyExistsException();
-//        }
-        return invoicesRepository.save(invoice);
+        Invoices newInvoice = invoicesRepository.save(invoice);
+        Customers addedCustomer = customersRepository.findById(invoice.getCustomer().getId())
+                .orElseThrow(CustomerNotFoundException::new);
+        addedCustomer.getInvoicesList().add(newInvoice);
+        customersService.update(addedCustomer);
+
+        Users addedUser = usersRepository.findById(invoice.getUser().getId())
+                .orElseThrow(UserNotFoundException::new);
+        addedUser.getInvoicesList().add(newInvoice);
+        userService.update(addedUser);
+
+        for(Products product : invoice.getProductsList()) {
+            Products addedProduct = productsRepository.findById(product.getId())
+                    .orElseThrow(ProductNotFoundException::new);
+            addedProduct.getInvoicesList().add(newInvoice);
+            productsRepository.save(addedProduct);
+        }
+        return newInvoice;
+    }
+
+    public Invoices addProductToInvoice(@NotNull Invoices invoice, final Long productId)
+            throws InvoicesNotFoundException {
+        Products updatedProduct = productsService.getOne(productId);
+        Invoices updatedInvoice = invoicesRepository.findById(invoice.getId())
+                .orElseThrow(InvoicesNotFoundException::new);
+        updatedInvoice.getProductsList().add(updatedProduct);
+        updatedProduct.getInvoicesList().add(updatedInvoice);
+        invoicesRepository.save(updatedInvoice);
+        productsRepository.save(updatedProduct);
+        return updatedInvoice;
     }
 
     public Invoices addCustomerToInvoice(@NotNull Invoices invoice, final Long customerId)
@@ -56,16 +82,6 @@ public class InvoicesService {
         customer.getInvoicesList().add(invoice);
         invoicesRepository.save(invoice);
         customersRepository.save(customer);
-        return invoice;
-    }
-
-    public Invoices addProductToInvoice(@NotNull Invoices invoice, final Long productId)
-            throws ProductNotFoundException {
-        Products product = productsService.getOne(productId);
-        invoice.getProductsList().add(product);
-        product.getInvoicesList().add(invoice);
-        invoicesRepository.save(invoice);
-        productsRepository.save(product);
         return invoice;
     }
 

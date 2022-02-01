@@ -1,5 +1,6 @@
 package com.myprojects.invoice.services;
 
+import com.myprojects.invoice.domain.Invoices;
 import com.myprojects.invoice.domain.Products;
 import com.myprojects.invoice.exceptions.ProductAlreadyExistsException;
 import com.myprojects.invoice.exceptions.ProductNotFoundException;
@@ -37,6 +38,14 @@ public class ProductsService {
             throw new ProductAlreadyExistsException();
         }
         return productsRepository.save(product);
+    }
+
+    public void addInvoiceToProduct(final @NotNull Invoices invoice, final Long productId)
+            throws ProductNotFoundException{
+        Products updatedProduct = productsRepository.findById(productId)
+                .orElseThrow(ProductNotFoundException::new);
+        updatedProduct.getInvoicesList().add(invoice);
+        productsRepository.save(updatedProduct);
     }
 
     public Products update(final @NotNull Products product) throws ProductNotFoundException {

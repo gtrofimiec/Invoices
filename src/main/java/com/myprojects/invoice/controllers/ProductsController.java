@@ -32,7 +32,7 @@ public class ProductsController {
             consumes = APPLICATION_JSON_VALUE)
     public ProductsDto createProduct(@RequestBody ProductsDto productsDto) throws ProductNotFoundException,
             ProductAlreadyExistsException {
-        return productsFacade.createProduct(productsDto);
+        return productsFacade.saveProduct(productsDto);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/products/{id}")

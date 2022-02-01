@@ -1,6 +1,9 @@
 package com.myprojects.invoice.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,12 +11,19 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name="products")
 public class Products {
 
-    public Products() {
+    public Products(String name, int vatRate, BigDecimal netPrice, BigDecimal vatValue, BigDecimal grossPrice) {
+        this.name = name;
+        this.vatRate = vatRate;
+        this.netPrice = netPrice;
+        this.vatValue = vatValue;
+        this.grossPrice = grossPrice;
         this.invoicesList = new ArrayList<>();
     }
 
@@ -43,7 +53,11 @@ public class Products {
     @Column(name="gross_price")
     private BigDecimal grossPrice;
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.DETACH,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST
+    }, fetch = FetchType.EAGER)
     @JoinTable(name ="invoices_has_products",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id")}

@@ -14,7 +14,6 @@ public class CustomersMapper {
 
     public Customers mapToCustomer(final @NotNull CustomersDto customerDto)
             throws CustomerNotFoundException {
-//        InvoicesMapper invoicesMapper = new InvoicesMapper();
         Customers customer = new Customers();
             customer.setId(customerDto.getId());
             customer.setFullName(customerDto.getFullName());
@@ -22,14 +21,11 @@ public class CustomersMapper {
             customer.setStreet(customerDto.getStreet());
             customer.setPostCode(customerDto.getPostCode());
             customer.setTown(customerDto.getTown());
-//            customer.setInvoicesList(invoicesMapper.mapToInvoicesList(
-//                    customerDto.getInvoicesDtoList()));
         return customer;
     }
 
     public CustomersDto mapToCustomerDto(final @NotNull Customers customer)
             throws CustomerNotFoundException {
-//        InvoicesMapper invoicesMapper = new InvoicesMapper();
         CustomersDto customerDto = new CustomersDto();
             customerDto.setId(customer.getId());
             customerDto.setFullName(customer.getFullName());
@@ -37,8 +33,6 @@ public class CustomersMapper {
             customerDto.setStreet(customer.getStreet());
             customerDto.setPostCode(customer.getPostCode());
             customerDto.setTown(customer.getTown());
-//            customerDto.setInvoicesDtoList(invoicesMapper.mapToInvoicesDtoList(
-//                    customer.getInvoicesList()));
         return customerDto;
     }
 

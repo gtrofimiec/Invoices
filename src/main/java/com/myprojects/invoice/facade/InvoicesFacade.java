@@ -20,10 +20,8 @@ public class InvoicesFacade {
 
     private final InvoicesService invoicesService;
     private final InvoicesMapper invoicesMapper;
-    private final UserService userService;
 
     public List<InvoicesDto> getInvoices() {
-        List<InvoicesDto> list = invoicesMapper.mapToInvoicesDtoList(invoicesService.getAll());
         return invoicesMapper.mapToInvoicesDtoList(invoicesService.getAll());
     }
 
@@ -34,7 +32,6 @@ public class InvoicesFacade {
     public InvoicesDto saveInvoice(InvoicesDto invoiceDto)
             throws InvoiceAlreadyExistsException {
         Invoices newInvoice = invoicesMapper.mapToInvoice(invoiceDto);
-//        newInvoice.setUser(userService.getOne(userId));
         invoicesService.save(newInvoice);
         return invoicesMapper.mapToInvoiceDto(newInvoice);
     }

@@ -9,20 +9,20 @@ import java.util.List;
 @Data
 public class UsersDto {
 
-    @JsonProperty("user_id")
+    @JsonProperty
     private Long id;
-    @JsonProperty("full_name")
+    @JsonProperty
     private String fullName;
-    @JsonProperty("nip")
+    @JsonProperty
     private String nip;
-    @JsonProperty("street")
+    @JsonProperty
     private String street;
-    @JsonProperty("postcode")
+    @JsonProperty
     private String postCode;
-    @JsonProperty("town")
+    @JsonProperty
     private String town;
-    @JsonProperty("active")
+    @JsonProperty
     private boolean active;
-    @JsonProperty("invoices_list")
+    @JsonProperty
     private List<InvoicesDto> invoicesDtoList = new ArrayList<>();
 }

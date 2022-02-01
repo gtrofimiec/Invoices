@@ -26,7 +26,7 @@ public class UserFacade {
         return userMapper.mapToUserDto(userService.getOne(userId));
     }
 
-    public UsersDto createUser(UsersDto userDto) throws UserNotFoundException,
+    public UsersDto saveUser(UsersDto userDto) throws UserNotFoundException,
             UserAlreadyExistsException {
         Users newUser = userMapper.mapToUser(userDto);
         userService.save(newUser);

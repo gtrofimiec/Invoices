@@ -3,10 +3,12 @@ package com.myprojects.invoice.mappers;
 import com.myprojects.invoice.domain.Invoices;
 import com.myprojects.invoice.domain.dtos.InvoicesDto;
 import com.myprojects.invoice.exceptions.InvoicesNotFoundException;
+import com.myprojects.invoice.services.CustomersService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,10 +22,9 @@ public class InvoicesMapper {
     @Autowired
     UserMapper userMapper;
 
-    public Invoices mapToInvoice(final @NotNull InvoicesDto invoiceDto) throws InvoicesNotFoundException {
+    CustomersService customersService;
 
-//        ProductsMapper productsMapper = new ProductsMapper();
-//        UserMapper userMapper = new UserMapper();
+    public Invoices mapToInvoice(final @NotNull InvoicesDto invoiceDto) throws InvoicesNotFoundException {
         Invoices invoice = new Invoices();
             invoice.setId(invoiceDto.getId());
             invoice.setNumber(invoiceDto.getNumber());
@@ -39,17 +40,14 @@ public class InvoicesMapper {
     }
 
     public InvoicesDto mapToInvoiceDto(final @NotNull Invoices invoice) {
-//        CustomersMapper customersMapper = new CustomersMapper();
-//        ProductsMapper productsMapper = new ProductsMapper();
-//        UserMapper userMapper = new UserMapper();
         InvoicesDto invoiceDto = new InvoicesDto();
             invoiceDto.setId(invoice.getId());
             invoiceDto.setNumber(invoice.getNumber());
             invoiceDto.setDate(invoice.getDate());
-            invoice.setNetSum(invoiceDto.getNetSum());
-            invoice.setVatSum(invoiceDto.getVatSum());
-            invoice.setGrossSum(invoiceDto.getGrossSum());
-            invoice.setPaymentMethod(invoiceDto.getPaymentMethod());
+            invoiceDto.setNetSum(invoice.getNetSum());
+            invoiceDto.setVatSum(invoice.getVatSum());
+            invoiceDto.setGrossSum(invoice.getGrossSum());
+            invoiceDto.setPaymentMethod(invoice.getPaymentMethod());
             invoiceDto.setCustomerDto(customersMapper.mapToCustomerDto(invoice.getCustomer()));
             invoiceDto.setProductsDtoList(productsMapper.mapToProductsDtoList(invoice.getProductsList()));
             invoiceDto.setUserDto(userMapper.mapToUserDto(invoice.getUser()));
