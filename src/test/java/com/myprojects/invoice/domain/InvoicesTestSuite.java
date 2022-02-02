@@ -1,8 +1,11 @@
 package com.myprojects.invoice.domain;
 
-import com.myprojects.invoice.exceptions.CustomerNotFoundException;
-import com.myprojects.invoice.exceptions.ProductNotFoundException;
-import com.myprojects.invoice.exceptions.UserNotFoundException;
+import com.myprojects.invoice.domain.dtos.CustomersDto;
+import com.myprojects.invoice.domain.dtos.ProductsDto;
+import com.myprojects.invoice.domain.dtos.UsersDto;
+import com.myprojects.invoice.facade.CustomersFacade;
+import com.myprojects.invoice.facade.ProductsFacade;
+import com.myprojects.invoice.facade.UserFacade;
 import com.myprojects.invoice.repositories.CustomersRepository;
 import com.myprojects.invoice.repositories.InvoicesRepository;
 import com.myprojects.invoice.repositories.ProductsRepository;
@@ -15,8 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -29,13 +31,20 @@ public class InvoicesTestSuite {
     @Autowired
     private InvoicesRepository invoicesRepository;
     @Autowired
+    private InvoicesService invoicesService;
+    @Autowired
     private CustomersRepository customersRepository;
     @Autowired
-    private UsersRepository usersRepository;
+    private CustomersFacade customersFacade;
     @Autowired
     private ProductsRepository productsRepository;
     @Autowired
-    private InvoicesService invoicesService;
+    private ProductsFacade productsFacade;
+    @Autowired
+    private UsersRepository usersRepository;
+    @Autowired
+    private UserFacade userFacade;
+
 
     @Test
     public void shouldFindAllInvoices() {
@@ -44,9 +53,9 @@ public class InvoicesTestSuite {
         long currentNumberOfInvoices = invoicesRepository.findAll().stream()
                 .filter(c -> !c.isDeleted())
                 .count();
-        Invoices invoice1 = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
+        Invoices invoice1 = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-        Invoices invoice2 = new Invoices("2/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
+        Invoices invoice2 = new Invoices("2/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
 
         // When
@@ -68,9 +77,9 @@ public class InvoicesTestSuite {
     public void shouldFindInvoiceById() {
 
         // Given
-        Invoices invoice1 = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
+        Invoices invoice1 = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-        Invoices invoice2 = new Invoices("2/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
+        Invoices invoice2 = new Invoices("2/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
 
         // When
@@ -89,65 +98,56 @@ public class InvoicesTestSuite {
     }
 
     @Test
-    public void shouldSaveInvoice() {
+    public void shouldSaveAndDeleteInvoice() {
 
         // Given
-        Invoices invoice = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
+        Invoices invoice = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30), BigDecimal.valueOf(12.30),"gotówka");
-//        Customers customer = new Customers("Jan Kowalski","5630016732", "Ulica", "22-100",
-//                "Chełm");
-        Customers customer = customersRepository.findById(2L).get();
-//        Users user = new Users("Marian","5278451874", "Własna 2", "22-200",
-//                "Włodawa");
-        Users user = usersRepository.findById(1L).get();
-//        Products product = new Products("name", 23,BigDecimal.valueOf(10.00),
-//                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30));
-        Products product = productsRepository.findById(5L).get();
-        customer.getInvoicesList().add(invoice);
-        user.getInvoicesList().add(invoice);
-        product.getInvoicesList().add(invoice);
-        invoice.setCustomer(customer);
-        invoice.setUser(user);
-        invoice.getProductsList().add(product);
+        CustomersDto customerDto = new CustomersDto("Jan Kowalski","5630016732", "Ulica", "22-100",
+                "Chełm");
+        UsersDto userDto = new UsersDto("Marian","5278451874", "Własna 2", "22-200",
+                "Włodawa", false);
+        ProductsDto productDto = new ProductsDto("name", 23,BigDecimal.valueOf(10.00),
+                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30));
 
         //When
-        customersRepository.save(customer);
-        usersRepository.save(user);
-        productsRepository.save(product);
-        invoicesRepository.save(invoice);
-        Long customerId = customer.getId();
-        Long userId = user.getId();
-        Long productId = product.getId();
-        Long invoiceId = invoice.getId();
-        Optional<Invoices> savedInvoice = invoicesRepository.findById(invoiceId);
-        Optional<Customers> savedCustomer = customersRepository.findById(customerId);
-        Optional<Users> savedUser = usersRepository.findById(userId);
-        Optional<Products> savedProduct = productsRepository.findById(productId);
-        int customersSize = savedCustomer.get().getInvoicesList().size();
-        int usersSize = savedUser.get().getInvoicesList().size();
-        int productsSize = savedProduct.get().getInvoicesList().size();
+        CustomersDto addedCustomer = customersFacade.saveCustomer(customerDto);
+        ProductsDto addedProductDto = productsFacade.saveProduct(productDto);
+        UsersDto addedUserDto = userFacade.saveUser(userDto);
+        Invoices newInvoice = invoicesRepository.save(invoice);
+        Long addedCustomerDtoId = addedCustomer.getId();
+        Long addedProductDtoId = addedProductDto.getId();
+        Long addedUserDtoId = addedUserDto.getId();
+        Long addedInvoiceId = newInvoice.getId();
+        invoicesService.addCustomerToInvoice(newInvoice, addedCustomerDtoId);
+        invoicesService.addProductToInvoice(newInvoice, addedProductDtoId);
+        invoicesService.addUserToInvoice(newInvoice, addedUserDtoId);
+        Optional<Invoices> savedInvoice = invoicesRepository.findById(addedInvoiceId);
+        Optional<Customers> savedCustomer = customersRepository.findById(addedCustomerDtoId);
+        Optional<Users> savedUser = usersRepository.findById(addedUserDtoId);
+        Optional<Products> savedProduct = productsRepository.findById(addedProductDtoId);
 
         // Then
-//        assertEquals(1, customersSize);
-//        assertEquals(1, usersSize);
-//        assertEquals(1, productsSize);
-        assertEquals(customerId, savedCustomer.get().getId());
-        assertEquals(userId, savedUser.get().getId());
-        assertEquals(productId, savedProduct.get().getId());
-        assertEquals(invoiceId, savedInvoice.get().getId());
+        assertEquals(addedCustomerDtoId, savedCustomer.get().getId());
+        assertEquals(addedUserDtoId, savedUser.get().getId());
+        assertEquals(addedProductDtoId, savedProduct.get().getId());
+        assertEquals(addedInvoiceId, savedInvoice.get().getId());
 
         // Clean Up
-//        customersRepository.deleteById(savedCustomer.get().getId());
-//        usersRepository.deleteById(savedUser.get().getId());
-//        productsRepository.deleteById(savedProduct.get().getId());
-//        invoicesRepository.deleteById(savedInvoice.get().getId());
+        invoicesService.deleteCustomerFromInvoice(newInvoice, addedCustomerDtoId);
+        invoicesService.deleteProductFromInvoice(newInvoice, addedProductDtoId);
+        invoicesService.deleteUserFromInvoice(newInvoice, addedUserDtoId);
+        customersRepository.deleteById(addedCustomerDtoId);
+        productsRepository.deleteById(addedProductDtoId);
+        usersRepository.deleteById(addedUserDtoId);
+        invoicesRepository.deleteById(addedInvoiceId);
     }
 
     @Test
     public void shouldUpdateInvoice() {
 
         // Given
-        Invoices invoice = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
+        Invoices invoice = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
 
         // When
@@ -172,9 +172,9 @@ public class InvoicesTestSuite {
         long currentNumberOfInvoices = invoicesRepository.findAll().stream()
                 .filter(c -> !c.isDeleted())
                 .count();
-        Invoices invoice1 = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
+        Invoices invoice1 = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-        Invoices invoice2 = new Invoices("2/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
+        Invoices invoice2 = new Invoices("2/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
 
         // When

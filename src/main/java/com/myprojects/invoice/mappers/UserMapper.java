@@ -3,9 +3,7 @@ package com.myprojects.invoice.mappers;
 import com.myprojects.invoice.domain.Users;
 import com.myprojects.invoice.domain.dtos.UsersDto;
 import com.myprojects.invoice.exceptions.UserNotFoundException;
-import com.myprojects.invoice.services.InvoicesService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

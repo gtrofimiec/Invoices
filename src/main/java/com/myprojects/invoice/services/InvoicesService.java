@@ -1,5 +1,6 @@
 package com.myprojects.invoice.services;
 
+import com.myprojects.invoice.config.AdminConfig;
 import com.myprojects.invoice.domain.Customers;
 import com.myprojects.invoice.domain.Invoices;
 import com.myprojects.invoice.domain.Products;
@@ -29,6 +30,8 @@ public class InvoicesService {
     private final ProductsRepository productsRepository;
     private final UserService userService;
     private final UsersRepository usersRepository;
+    private final SimpleEmailService emailService;
+    private final AdminConfig adminConfig;
 
     public List<Invoices> getAll() {
         return invoicesRepository.findAll().stream()
@@ -65,23 +68,40 @@ public class InvoicesService {
 
     public Invoices addProductToInvoice(@NotNull Invoices invoice, final Long productId)
             throws InvoicesNotFoundException {
-        Products updatedProduct = productsService.getOne(productId);
+        Products addedProduct = productsRepository.findById(productId)
+                .orElseThrow(ProductNotFoundException::new);
         Invoices updatedInvoice = invoicesRepository.findById(invoice.getId())
                 .orElseThrow(InvoicesNotFoundException::new);
-        updatedInvoice.getProductsList().add(updatedProduct);
-        updatedProduct.getInvoicesList().add(updatedInvoice);
+        updatedInvoice.getProductsList().add(addedProduct);
+        addedProduct.getInvoicesList().add(updatedInvoice);
         invoicesRepository.save(updatedInvoice);
-        productsRepository.save(updatedProduct);
+        productsRepository.save(addedProduct);
         return updatedInvoice;
     }
 
     public Invoices addCustomerToInvoice(@NotNull Invoices invoice, final Long customerId)
             throws CustomerNotFoundException {
-        Customers customer = customersService.getOne(customerId);
-        invoice.setCustomer(customer);
-        customer.getInvoicesList().add(invoice);
-        invoicesRepository.save(invoice);
-        customersRepository.save(customer);
+        Customers addedCustomer = customersRepository.findById(customerId)
+                .orElseThrow(CustomerNotFoundException::new);
+        Invoices updatedInvoice = invoicesRepository.findById(invoice.getId())
+                .orElseThrow(InvoicesNotFoundException::new);
+        updatedInvoice.setCustomer(addedCustomer);
+        addedCustomer.getInvoicesList().add(updatedInvoice);
+        invoicesRepository.save(updatedInvoice);
+        customersRepository.save(addedCustomer);
+        return invoice;
+    }
+
+    public Invoices addUserToInvoice(@NotNull Invoices invoice, final Long userId)
+            throws UserNotFoundException {
+        Users addedUser = usersRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+        Invoices updatedInvoice = invoicesRepository.findById(invoice.getId())
+                .orElseThrow(InvoicesNotFoundException::new);
+        updatedInvoice.setUser(addedUser);
+        addedUser.getInvoicesList().add(updatedInvoice);
+        invoicesRepository.save(updatedInvoice);
+        usersRepository.save(addedUser);
         return invoice;
     }
 
@@ -101,21 +121,37 @@ public class InvoicesService {
     }
     public Invoices deleteCustomerFromInvoice(@NotNull Invoices invoice, final Long customerId)
             throws CustomerNotFoundException {
+        Invoices updatedInvoice = invoicesRepository.findById(invoice.getId())
+                .orElseThrow(InvoicesNotFoundException::new);
         Customers customer = customersService.getOne(customerId);
-        invoice.setCustomer(null);
-        customer.getInvoicesList().remove(invoice);
-        invoicesRepository.save(invoice);
+        updatedInvoice.setCustomer(null);
+        customer.getInvoicesList().remove(updatedInvoice);
+        invoicesRepository.save(updatedInvoice);
         customersRepository.save(customer);
-        return invoice;
+        return updatedInvoice;
 
     }
     public Invoices deleteProductFromInvoice(@NotNull Invoices invoice, final Long productId)
             throws ProductNotFoundException {
+        Invoices updatedInvoice = invoicesRepository.findById(invoice.getId())
+                .orElseThrow(InvoicesNotFoundException::new);
         Products product = productsService.getOne(productId);
-        invoice.getProductsList().remove(product);
-        product.getInvoicesList().remove(invoice);
-        invoicesRepository.save(invoice);
+        updatedInvoice.getProductsList().remove(product);
+        product.getInvoicesList().remove(updatedInvoice);
+        invoicesRepository.save(updatedInvoice);
         productsRepository.save(product);
-        return invoice;
+        return updatedInvoice;
+    }
+
+    public Invoices deleteUserFromInvoice(@NotNull Invoices invoice, final Long userId)
+            throws UserNotFoundException {
+        Invoices updatedInvoice = invoicesRepository.findById(invoice.getId())
+                .orElseThrow(InvoicesNotFoundException::new);
+        Users user = userService.getOne(userId);
+        updatedInvoice.setUser(null);
+        user.getInvoicesList().remove(updatedInvoice);
+        invoicesRepository.save(updatedInvoice);
+        usersRepository.save(user);
+        return updatedInvoice;
     }
 }

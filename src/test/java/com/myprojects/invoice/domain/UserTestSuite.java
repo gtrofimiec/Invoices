@@ -141,5 +141,8 @@ public class UserTestSuite {
         // Then
         assertEquals(Optional.empty(), removedUser);
         assertEquals(currentNumberOfUsers + 1, availableUsers);
+
+        // Clean Up
+        usersRepository.deleteById(user2.getId());
     }
 }

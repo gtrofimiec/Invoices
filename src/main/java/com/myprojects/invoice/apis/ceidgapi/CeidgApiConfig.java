@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Component
-public class CeidgApiConfig {
+public final class CeidgApiConfig {
 
     @Value("https://test-dane.biznes.gov.pl/api/ceidg/v1/firma?")
     private String ceidgApiTestEndpoint;

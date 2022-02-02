@@ -1,6 +1,5 @@
 package com.myprojects.invoice.domain;
 
-import com.myprojects.invoice.facade.CustomersFacade;
 import com.myprojects.invoice.repositories.CustomersRepository;
 import com.myprojects.invoice.services.CustomersService;
 import org.junit.Test;
@@ -19,8 +18,6 @@ public class CustomersTestsSuite {
 
     @Autowired
     private CustomersRepository customersRepository;
-    @Autowired
-    private CustomersFacade customersFacade;
     @Autowired
     private CustomersService customersService;
 

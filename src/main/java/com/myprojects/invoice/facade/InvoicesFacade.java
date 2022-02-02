@@ -2,13 +2,9 @@ package com.myprojects.invoice.facade;
 
 import com.myprojects.invoice.domain.Invoices;
 import com.myprojects.invoice.domain.dtos.InvoicesDto;
-import com.myprojects.invoice.exceptions.CustomerNotFoundException;
-import com.myprojects.invoice.exceptions.InvoiceAlreadyExistsException;
-import com.myprojects.invoice.exceptions.InvoicesNotFoundException;
-import com.myprojects.invoice.exceptions.ProductNotFoundException;
+import com.myprojects.invoice.exceptions.*;
 import com.myprojects.invoice.mappers.InvoicesMapper;
 import com.myprojects.invoice.services.InvoicesService;
-import com.myprojects.invoice.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -47,6 +43,13 @@ public class InvoicesFacade {
             throws InvoicesNotFoundException, ProductNotFoundException {
         Invoices invoice = invoicesService.getOne(invoiceId);
         Invoices updatedInvoice = invoicesService.addProductToInvoice(invoice, productId);
+        return invoicesMapper.mapToInvoiceDto(updatedInvoice);
+    }
+
+    public InvoicesDto addUserToInvoice(Long invoiceId, Long userId)
+            throws InvoicesNotFoundException, UserNotFoundException {
+        Invoices invoice = invoicesService.getOne(invoiceId);
+        Invoices updatedInvoice = invoicesService.addUserToInvoice(invoice, userId);
         return invoicesMapper.mapToInvoiceDto(updatedInvoice);
     }
 

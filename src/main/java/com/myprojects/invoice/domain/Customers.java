@@ -1,6 +1,5 @@
 package com.myprojects.invoice.domain;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -53,7 +52,6 @@ public class Customers {
             cascade = {
                     CascadeType.DETACH,
                     CascadeType.REFRESH,
-//                    CascadeType.MERGE,
                     CascadeType.PERSIST
             },
             fetch = FetchType.EAGER)

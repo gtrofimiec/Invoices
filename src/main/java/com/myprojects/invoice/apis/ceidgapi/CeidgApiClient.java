@@ -30,9 +30,9 @@ public class CeidgApiClient {
         this.ceidgApiConfig = ceidgApiConfig;
     }
 
-    public CeidgApiDto getCeidgData(String nip) {
+    public CeidgApiDto getCeidgData(String nip, String endpoint, String token) {
 
-        URI url = UriComponentsBuilder.fromHttpUrl(ceidgApiConfig.getCeidgApiProdEndpoint())
+        URI url = UriComponentsBuilder.fromHttpUrl(endpoint)
                 .queryParam("nip", nip)
                 .build()
                 .encode()
@@ -40,7 +40,7 @@ public class CeidgApiClient {
 
         try {
             ResponseEntity<CeidgApiDataListDto> foundData = restTemplate.exchange(url, HttpMethod.GET,
-                    new HttpEntity<>(createHeaders(ceidgApiConfig.getToken())), CeidgApiDataListDto.class);
+                    new HttpEntity<>(createHeaders(token)), CeidgApiDataListDto.class);
 
             CustomerDataDto obj = Objects.requireNonNull(foundData.getBody()).getCustomerDataDto().get(0);
 
