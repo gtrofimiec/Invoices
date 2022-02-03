@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -15,17 +15,6 @@ import java.util.List;
 @Entity
 @Table(name="invoices")
 public class Invoices {
-
-    public Invoices(String number, LocalDateTime date, BigDecimal netSum, BigDecimal vatSum, BigDecimal grossSum,
-                    String paymentMethod) {
-        this.number = number;
-        this.date = date;
-        this.netSum = netSum;
-        this.vatSum = vatSum;
-        this.grossSum = grossSum;
-        this.paymentMethod = paymentMethod;
-        this.productsList = new ArrayList<>();
-    }
 
     @Id
     @GeneratedValue
@@ -39,7 +28,7 @@ public class Invoices {
 
     @NotNull
     @Column(name="date")
-    private LocalDateTime date;
+    private Date date;
 
     @NotNull
     @Column(name="net_sum")
@@ -60,7 +49,7 @@ public class Invoices {
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.REFRESH,
-            CascadeType.PERSIST
+            CascadeType.MERGE
     }, fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customers customer;
@@ -69,18 +58,29 @@ public class Invoices {
             cascade = {
             CascadeType.DETACH,
             CascadeType.REFRESH,
-            CascadeType.PERSIST
+            CascadeType.MERGE
     }, fetch = FetchType.EAGER)
     private List<Products> productsList;
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.REFRESH,
-            CascadeType.PERSIST
+            CascadeType.MERGE
     }, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private Users user;
 
     @Column(name = "deleted")
     private boolean deleted = false;
+
+    public Invoices(String number, Date date, BigDecimal netSum, BigDecimal vatSum, BigDecimal grossSum,
+                    String paymentMethod) {
+        this.number = number;
+        this.date = date;
+        this.netSum = netSum;
+        this.vatSum = vatSum;
+        this.grossSum = grossSum;
+        this.paymentMethod = paymentMethod;
+        this.productsList = new ArrayList<>();
+    }
 }

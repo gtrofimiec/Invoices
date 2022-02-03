@@ -18,7 +18,7 @@ public class EmailScheduler {
     private final InvoicesRepository invoicesRepository;
     private final AdminConfig adminConfig;
 
-    @Scheduled(cron ="0 0 10 * * *")
+    @Scheduled(cron ="0 0 8 * * *")
     public void sendInformationEmail() {
         long size = invoicesRepository.count();
         simpleEmailService.send(new Mail(

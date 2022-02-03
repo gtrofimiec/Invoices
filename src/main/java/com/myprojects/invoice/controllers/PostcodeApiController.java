@@ -17,7 +17,8 @@ public class PostcodeApiController {
     private final PostcodeApiFacade postcodeApiFacade;
 
     @RequestMapping(method = RequestMethod.GET, value = "/getTown/{postCode}")
-    public PostcodeApiDto getTownFromPostcode(@PathVariable("postCode") String postCode) throws CeidgDataNotFoundException {
+    public PostcodeApiDto getTownFromPostcode(@PathVariable("postCode") String postCode)
+            throws CeidgDataNotFoundException {
         return postcodeApiFacade.getTownFromPostcode(postCode);
     }
 }

@@ -1,6 +1,5 @@
 package com.myprojects.invoice.services;
 
-import com.myprojects.invoice.config.AdminConfig;
 import com.myprojects.invoice.domain.Customers;
 import com.myprojects.invoice.domain.Invoices;
 import com.myprojects.invoice.domain.Products;
@@ -30,8 +29,6 @@ public class InvoicesService {
     private final ProductsRepository productsRepository;
     private final UserService userService;
     private final UsersRepository usersRepository;
-    private final SimpleEmailService emailService;
-    private final AdminConfig adminConfig;
 
     public List<Invoices> getAll() {
         return invoicesRepository.findAll().stream()

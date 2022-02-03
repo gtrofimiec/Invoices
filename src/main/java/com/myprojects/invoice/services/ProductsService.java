@@ -40,14 +40,6 @@ public class ProductsService {
         return productsRepository.save(product);
     }
 
-    public void addInvoiceToProduct(final @NotNull Invoices invoice, final Long productId)
-            throws ProductNotFoundException{
-        Products updatedProduct = productsRepository.findById(productId)
-                .orElseThrow(ProductNotFoundException::new);
-        updatedProduct.getInvoicesList().add(invoice);
-        productsRepository.save(updatedProduct);
-    }
-
     public Products update(final @NotNull Products product) throws ProductNotFoundException {
         Long id = product.getId();
         if (id == null || !productsRepository.existsById(id)) {

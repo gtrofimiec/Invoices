@@ -17,14 +17,14 @@ import java.util.List;
 @Table(name="products")
 public class Products {
 
-    public Products(String name, int vatRate, BigDecimal netPrice, BigDecimal vatValue, BigDecimal grossPrice) {
-        this.name = name;
-        this.vatRate = vatRate;
-        this.netPrice = netPrice;
-        this.vatValue = vatValue;
-        this.grossPrice = grossPrice;
-        this.invoicesList = new ArrayList<>();
-    }
+//    public Products(String name, int vatRate, BigDecimal netPrice, BigDecimal vatValue, BigDecimal grossPrice) {
+//        this.name = name;
+//        this.vatRate = vatRate;
+//        this.netPrice = netPrice;
+//        this.vatValue = vatValue;
+//        this.grossPrice = grossPrice;
+//        this.invoicesList = new ArrayList<>();
+//    }
 
     @Id
     @GeneratedValue

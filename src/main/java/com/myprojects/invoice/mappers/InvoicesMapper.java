@@ -58,10 +58,4 @@ public class InvoicesMapper {
                 .map(this::mapToInvoiceDto)
                 .collect(Collectors.toList());
     }
-
-    public List<Invoices> mapToInvoicesList(final @NotNull List<InvoicesDto> invoicesDtoList) {
-        return invoicesDtoList.stream()
-                .map(this::mapToInvoice)
-                .collect(Collectors.toList());
-    }
 }

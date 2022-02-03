@@ -16,14 +16,14 @@ import java.util.List;
 @Table(name="users")
 public class Users {
 
-    public Users(String fullName, String nip, String street, String postCode, String town) {
-        this.fullName = fullName;
-        this.nip = nip;
-        this.street = street;
-        this.postCode = postCode;
-        this.town = town;
-        this.invoicesList = new ArrayList<>();
-    }
+//    public Users(String fullName, String nip, String street, String postCode, String town) {
+//        this.fullName = fullName;
+//        this.nip = nip;
+//        this.street = street;
+//        this.postCode = postCode;
+//        this.town = town;
+//        this.invoicesList = new ArrayList<>();
+//    }
 
     @Id
     @GeneratedValue

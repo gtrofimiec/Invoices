@@ -18,7 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -45,7 +46,6 @@ public class InvoicesTestSuite {
     @Autowired
     private UserFacade userFacade;
 
-
     @Test
     public void shouldFindAllInvoices() {
 
@@ -53,9 +53,9 @@ public class InvoicesTestSuite {
         long currentNumberOfInvoices = invoicesRepository.findAll().stream()
                 .filter(c -> !c.isDeleted())
                 .count();
-        Invoices invoice1 = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
+        Invoices invoice1 = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-        Invoices invoice2 = new Invoices("2/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
+        Invoices invoice2 = new Invoices("2/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
 
         // When
@@ -77,9 +77,9 @@ public class InvoicesTestSuite {
     public void shouldFindInvoiceById() {
 
         // Given
-        Invoices invoice1 = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
+        Invoices invoice1 = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-        Invoices invoice2 = new Invoices("2/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
+        Invoices invoice2 = new Invoices("2/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
 
         // When
@@ -101,7 +101,7 @@ public class InvoicesTestSuite {
     public void shouldSaveAndDeleteInvoice() {
 
         // Given
-        Invoices invoice = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
+        Invoices invoice = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30), BigDecimal.valueOf(12.30),"gotówka");
         CustomersDto customerDto = new CustomersDto("Jan Kowalski","5630016732", "Ulica", "22-100",
                 "Chełm");
@@ -147,7 +147,7 @@ public class InvoicesTestSuite {
     public void shouldUpdateInvoice() {
 
         // Given
-        Invoices invoice = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
+        Invoices invoice = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
 
         // When
@@ -172,9 +172,9 @@ public class InvoicesTestSuite {
         long currentNumberOfInvoices = invoicesRepository.findAll().stream()
                 .filter(c -> !c.isDeleted())
                 .count();
-        Invoices invoice1 = new Invoices("1/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
+        Invoices invoice1 = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-        Invoices invoice2 = new Invoices("2/2022", LocalDateTime.now(), BigDecimal.valueOf(10.00),
+        Invoices invoice2 = new Invoices("2/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
 
         // When
