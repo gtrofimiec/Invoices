@@ -3,7 +3,6 @@ package com.myprojects.invoice.mappers;
 import com.myprojects.invoice.domain.Invoices;
 import com.myprojects.invoice.domain.dtos.InvoicesDto;
 import com.myprojects.invoice.exceptions.InvoicesNotFoundException;
-import com.myprojects.invoice.services.CustomersService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

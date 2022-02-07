@@ -1,6 +1,5 @@
 package com.myprojects.invoice.services;
 
-import com.myprojects.invoice.domain.Invoices;
 import com.myprojects.invoice.domain.Products;
 import com.myprojects.invoice.exceptions.ProductAlreadyExistsException;
 import com.myprojects.invoice.exceptions.ProductNotFoundException;
