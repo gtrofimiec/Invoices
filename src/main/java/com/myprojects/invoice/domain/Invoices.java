@@ -54,12 +54,15 @@ public class Invoices {
     @JoinColumn(name = "customer_id")
     private Customers customer;
 
-    @ManyToMany(mappedBy = "invoicesList",
-            cascade = {
-            CascadeType.DETACH,
+    @ManyToMany(cascade = {
             CascadeType.REFRESH,
+            CascadeType.DETACH,
             CascadeType.MERGE
     }, fetch = FetchType.EAGER)
+    @JoinTable(name ="invoices_has_products",
+            joinColumns = {@JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")}
+    )
     private List<Products> productsList;
 
     @ManyToOne(cascade = {

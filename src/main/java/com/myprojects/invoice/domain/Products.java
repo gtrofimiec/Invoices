@@ -17,15 +17,6 @@ import java.util.List;
 @Table(name="products")
 public class Products {
 
-//    public Products(String name, int vatRate, BigDecimal netPrice, BigDecimal vatValue, BigDecimal grossPrice) {
-//        this.name = name;
-//        this.vatRate = vatRate;
-//        this.netPrice = netPrice;
-//        this.vatValue = vatValue;
-//        this.grossPrice = grossPrice;
-//        this.invoicesList = new ArrayList<>();
-//    }
-
     @Id
     @GeneratedValue
     @NotNull
@@ -52,17 +43,23 @@ public class Products {
     @Column(name="gross_price")
     private BigDecimal grossPrice;
 
-    @ManyToMany(cascade = {
-            CascadeType.DETACH,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST
-    }, fetch = FetchType.EAGER)
-    @JoinTable(name ="invoices_has_products",
-            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
-            inverseJoinColumns = {@JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id")}
-    )
+    @ManyToMany(mappedBy = "productsList",
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.REFRESH,
+                    CascadeType.PERSIST
+            }, fetch = FetchType.EAGER)
     private List<Invoices> invoicesList;
 
     @Column(name = "deleted")
     private boolean deleted = false;
+
+    public Products(String name, int vatRate, BigDecimal netPrice, BigDecimal vatValue, BigDecimal grossPrice) {
+        this.name = name;
+        this.vatRate = vatRate;
+        this.netPrice = netPrice;
+        this.vatValue = vatValue;
+        this.grossPrice = grossPrice;
+        this.invoicesList = new ArrayList<>();
+    }
 }

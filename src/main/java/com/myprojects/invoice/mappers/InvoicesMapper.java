@@ -21,8 +21,6 @@ public class InvoicesMapper {
     @Autowired
     UserMapper userMapper;
 
-    CustomersService customersService;
-
     public Invoices mapToInvoice(final @NotNull InvoicesDto invoiceDto) throws InvoicesNotFoundException {
         Invoices invoice = new Invoices();
             invoice.setId(invoiceDto.getId());

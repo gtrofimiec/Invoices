@@ -16,15 +16,6 @@ import java.util.List;
 @Table(name="customers")
 public class Customers {
 
-//    public Customers(String fullName, String nip, String street, String postCode, String town) {
-//        this.fullName = fullName;
-//        this.nip = nip;
-//        this.street = street;
-//        this.postCode = postCode;
-//        this.town = town;
-//        this.invoicesList = new ArrayList<>();
-//    }
-
     @Id
     @GeneratedValue
     @NotNull
@@ -59,4 +50,13 @@ public class Customers {
 
     @Column(name = "deleted")
     private boolean deleted = false;
+
+    public Customers(String fullName, String nip, String street, String postCode, String town) {
+        this.fullName = fullName;
+        this.nip = nip;
+        this.street = street;
+        this.postCode = postCode;
+        this.town = town;
+        this.invoicesList = new ArrayList<>();
+    }
 }

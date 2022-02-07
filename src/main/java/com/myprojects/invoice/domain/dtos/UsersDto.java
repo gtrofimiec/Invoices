@@ -27,13 +27,4 @@ public class UsersDto {
     private boolean active;
     @JsonProperty
     private List<InvoicesDto> invoicesDtoList = new ArrayList<>();
-
-    public UsersDto(String fullName, String nip, String street, String postCode, String town, boolean active) {
-        this.fullName = fullName;
-        this.nip = nip;
-        this.street = street;
-        this.postCode = postCode;
-        this.town = town;
-        this.active = active;
-    }
 }

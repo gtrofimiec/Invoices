@@ -25,12 +25,4 @@ public class CustomersDto {
     private String town;
     @JsonProperty
     private List<InvoicesDto> invoicesDtoList = new ArrayList<>();
-
-    public CustomersDto(String fullName, String nip, String street, String postCode, String town) {
-        this.fullName = fullName;
-        this.nip = nip;
-        this.street = street;
-        this.postCode = postCode;
-        this.town = town;
-    }
 }

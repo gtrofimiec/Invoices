@@ -44,6 +44,7 @@ public class InvoicesService {
 
     public Invoices save(final @NotNull Invoices invoice) throws InvoiceAlreadyExistsException {
         Invoices newInvoice = invoicesRepository.save(invoice);
+
         Customers addedCustomer = customersRepository.findById(invoice.getCustomer().getId())
                 .orElseThrow(CustomerNotFoundException::new);
         addedCustomer.getInvoicesList().add(newInvoice);
@@ -61,6 +62,14 @@ public class InvoicesService {
             productsRepository.save(addedProduct);
         }
         return newInvoice;
+    }
+
+    public Invoices update(final @NotNull Invoices invoice) throws InvoicesNotFoundException {
+        Long id = invoice.getId();
+        if (id == null || !invoicesRepository.existsById(id)) {
+            throw new InvoicesNotFoundException();
+        }
+        return invoicesRepository.save(invoice);
     }
 
     public Invoices addProductToInvoice(@NotNull Invoices invoice, final Long productId)
@@ -100,14 +109,6 @@ public class InvoicesService {
         invoicesRepository.save(updatedInvoice);
         usersRepository.save(addedUser);
         return invoice;
-    }
-
-    public Invoices update(final @NotNull Invoices invoice) throws InvoicesNotFoundException {
-        Long id = invoice.getId();
-        if (id == null || !invoicesRepository.existsById(id)) {
-            throw new InvoicesNotFoundException();
-        }
-        return invoicesRepository.save(invoice);
     }
 
     public void deleteInvoice(final Long id) throws InvoicesNotFoundException {

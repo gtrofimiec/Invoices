@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Data
@@ -26,12 +28,4 @@ public class ProductsDto {
     private BigDecimal grossPrice;
     @JsonProperty
     private List<InvoicesDto> invoicesDtoList = new ArrayList<>();
-
-    public ProductsDto(String name, int vatRate, BigDecimal netPrice, BigDecimal vatValue, BigDecimal grossPrice) {
-        this.name = name;
-        this.vatRate = vatRate;
-        this.netPrice = netPrice;
-        this.vatValue = vatValue;
-        this.grossPrice = grossPrice;
-    }
 }

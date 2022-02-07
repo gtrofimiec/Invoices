@@ -32,6 +32,13 @@ public class InvoicesFacade {
         return invoicesMapper.mapToInvoiceDto(newInvoice);
     }
 
+    public InvoicesDto updateInvoice(Long invoiceId, InvoicesDto invoicesDto) throws InvoicesNotFoundException {
+        Invoices updatedInvoice = invoicesMapper.mapToInvoice(invoicesDto);
+        updatedInvoice.setId(invoiceId);
+        invoicesService.update(updatedInvoice);
+        return invoicesMapper.mapToInvoiceDto(updatedInvoice);
+    }
+
     public InvoicesDto addCustomerToInvoice(Long invoiceId, Long customerId)
             throws InvoicesNotFoundException, CustomerNotFoundException {
         Invoices invoice = invoicesService.getOne(invoiceId);
@@ -53,14 +60,6 @@ public class InvoicesFacade {
         return invoicesMapper.mapToInvoiceDto(updatedInvoice);
     }
 
-    public InvoicesDto updateInvoiceHeader(Long id, InvoicesDto invoiceDto)
-            throws InvoicesNotFoundException {
-        Invoices updatedInvoice = invoicesMapper.mapToInvoice(invoiceDto);
-        updatedInvoice.setId(id);
-        invoicesService.update(updatedInvoice);
-        return invoicesMapper.mapToInvoiceDto(updatedInvoice);
-    }
-
     public void deleteInvoice(Long invoiceId) throws InvoicesNotFoundException {
         invoicesService.deleteInvoice(invoiceId);
     }
@@ -76,6 +75,13 @@ public class InvoicesFacade {
             throws InvoicesNotFoundException, ProductNotFoundException {
         Invoices invoice = invoicesService.getOne(invoiceId);
         Invoices updatedInvoice = invoicesService.deleteProductFromInvoice(invoice, productId);
+        return invoicesMapper.mapToInvoiceDto(updatedInvoice);
+    }
+
+    public InvoicesDto deleteUserFromInvoice(Long invoiceId, Long userId)
+            throws InvoicesNotFoundException, UserNotFoundException {
+        Invoices invoice = invoicesService.getOne(invoiceId);
+        Invoices updatedInvoice = invoicesService.deleteUserFromInvoice(invoice, userId);
         return invoicesMapper.mapToInvoiceDto(updatedInvoice);
     }
 }

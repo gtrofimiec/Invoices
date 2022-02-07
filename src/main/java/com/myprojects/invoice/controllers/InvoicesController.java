@@ -1,10 +1,7 @@
 package com.myprojects.invoice.controllers;
 
 import com.myprojects.invoice.domain.dtos.InvoicesDto;
-import com.myprojects.invoice.exceptions.CustomerNotFoundException;
-import com.myprojects.invoice.exceptions.InvoiceAlreadyExistsException;
-import com.myprojects.invoice.exceptions.InvoicesNotFoundException;
-import com.myprojects.invoice.exceptions.ProductNotFoundException;
+import com.myprojects.invoice.exceptions.*;
 import com.myprojects.invoice.facade.InvoicesFacade;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +33,12 @@ public class InvoicesController {
         return invoicesFacade.saveInvoice(invoiceDto);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/invoices/{id}")
+    public InvoicesDto updateInvoice(@PathVariable("id") Long invoiceId, @RequestBody InvoicesDto invoicesDto)
+            throws InvoicesNotFoundException {
+        return invoicesFacade.updateInvoice(invoiceId, invoicesDto);
+    }
+
     @RequestMapping(method = RequestMethod.PUT, value = "/invoices/{invoiceId}/add/{customerId}")
     public InvoicesDto addCustomerToInvoice(@PathVariable("invoiceId") Long invoiceId,
                                             @PathVariable("customerId") Long customerId)
@@ -50,10 +53,11 @@ public class InvoicesController {
         return invoicesFacade.addProductToInvoice(invoiceId, productId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/invoices/{id}")
-    public InvoicesDto updateInvoiceHeader(@PathVariable("id") Long invoiceId, @RequestBody InvoicesDto invoiceDto)
-            throws InvoicesNotFoundException {
-        return invoicesFacade.updateInvoiceHeader(invoiceId, invoiceDto);
+    @RequestMapping(method = RequestMethod.PUT, value = "/invoices/{invoiceId}/add/{userId}")
+    public InvoicesDto addUserToInvoice(@PathVariable("invoiceId") Long invoiceId,
+                                           @PathVariable("userId") Long userId)
+            throws InvoicesNotFoundException, UserNotFoundException {
+        return invoicesFacade.addUserToInvoice(invoiceId, userId);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/invoices/{id}")
@@ -73,5 +77,12 @@ public class InvoicesController {
                                                  @PathVariable("productId") Long productId)
             throws InvoicesNotFoundException, ProductNotFoundException {
         return invoicesFacade.deleteProductFromInvoice(invoiceId, productId);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/invoices/{invoiceId}/del/{userId}")
+    public InvoicesDto deleteUserFromInvoice(@PathVariable("invoiceId") Long invoiceId,
+                                                @PathVariable("userId") Long userId)
+            throws InvoicesNotFoundException, UserNotFoundException {
+        return invoicesFacade.deleteUserFromInvoice(invoiceId, userId);
     }
 }

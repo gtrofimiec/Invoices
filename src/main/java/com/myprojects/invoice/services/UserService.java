@@ -44,6 +44,14 @@ public class UserService {
         if (id == null || !usersRepository.existsById(id)) {
             throw new UserNotFoundException();
         }
+        if(user.isActive()) {
+            getAll().stream()
+                    .filter(u -> !u.equals(user))
+                    .forEach(u -> {
+                        u.setActive(false);
+                        usersRepository.save(u);
+                    });
+        }
         return usersRepository.save(user);
     }
 

@@ -10,7 +10,10 @@ import com.myprojects.invoice.repositories.CustomersRepository;
 import com.myprojects.invoice.repositories.InvoicesRepository;
 import com.myprojects.invoice.repositories.ProductsRepository;
 import com.myprojects.invoice.repositories.UsersRepository;
+import com.myprojects.invoice.services.CustomersService;
 import com.myprojects.invoice.services.InvoicesService;
+import com.myprojects.invoice.services.ProductsService;
+import com.myprojects.invoice.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +39,15 @@ public class InvoicesTestSuite {
     @Autowired
     private CustomersRepository customersRepository;
     @Autowired
-    private CustomersFacade customersFacade;
+    private CustomersService customersService;
     @Autowired
     private ProductsRepository productsRepository;
     @Autowired
-    private ProductsFacade productsFacade;
+    private ProductsService productsService;
     @Autowired
     private UsersRepository usersRepository;
     @Autowired
-    private UserFacade userFacade;
+    private UserService userService;
 
     @Test
     public void shouldFindAllInvoices() {
@@ -102,36 +105,31 @@ public class InvoicesTestSuite {
 
         // Given
         Invoices invoice = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30), BigDecimal.valueOf(12.30),"gotówka");
-        CustomersDto customerDto = new CustomersDto("Jan Kowalski","5630016732", "Ulica", "22-100",
+                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
+        Customers customer = new Customers("Jan Kowalski","5630016732", "Ulica", "22-100",
                 "Chełm");
-        UsersDto userDto = new UsersDto("Marian","5278451874", "Własna 2", "22-200",
-                "Włodawa", false);
-        ProductsDto productDto = new ProductsDto("name", 23,BigDecimal.valueOf(10.00),
+        Users user = new Users("Marian","5278451874", "Własna 2", "22-200", "Włodawa");
+        Products product = new Products("name", 23,BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30));
 
-        //When
-        CustomersDto addedCustomer = customersFacade.saveCustomer(customerDto);
-        ProductsDto addedProductDto = productsFacade.saveProduct(productDto);
-        UsersDto addedUserDto = userFacade.saveUser(userDto);
+        // When
+        Customers addedCustomer = customersService.save(customer);
+        Products addedProduct = productsService.save(product);
+        Users addedUser = userService.save(user);
         Invoices newInvoice = invoicesRepository.save(invoice);
         Long addedCustomerDtoId = addedCustomer.getId();
-        Long addedProductDtoId = addedProductDto.getId();
-        Long addedUserDtoId = addedUserDto.getId();
+        Long addedProductDtoId = addedProduct.getId();
+        Long addedUserDtoId = addedUser.getId();
         Long addedInvoiceId = newInvoice.getId();
-        invoicesService.addCustomerToInvoice(newInvoice, addedCustomerDtoId);
-        invoicesService.addProductToInvoice(newInvoice, addedProductDtoId);
-        invoicesService.addUserToInvoice(newInvoice, addedUserDtoId);
-        Optional<Invoices> savedInvoice = invoicesRepository.findById(addedInvoiceId);
-        Optional<Customers> savedCustomer = customersRepository.findById(addedCustomerDtoId);
-        Optional<Users> savedUser = usersRepository.findById(addedUserDtoId);
-        Optional<Products> savedProduct = productsRepository.findById(addedProductDtoId);
+        newInvoice.setCustomer(addedCustomer);
+        newInvoice.setUser(addedUser);
+        newInvoice.getProductsList().add(addedProduct);
+        invoicesService.update(newInvoice);
 
         // Then
-        assertEquals(addedCustomerDtoId, savedCustomer.get().getId());
-        assertEquals(addedUserDtoId, savedUser.get().getId());
-        assertEquals(addedProductDtoId, savedProduct.get().getId());
-        assertEquals(addedInvoiceId, savedInvoice.get().getId());
+        assertEquals(addedUserDtoId, invoice.getUser().getId());
+        assertEquals(addedProductDtoId, invoice.getProductsList().get(0).getId());
+        assertEquals(addedCustomerDtoId, invoice.getCustomer().getId());
 
         // Clean Up
         invoicesService.deleteCustomerFromInvoice(newInvoice, addedCustomerDtoId);
@@ -141,28 +139,6 @@ public class InvoicesTestSuite {
         productsRepository.deleteById(addedProductDtoId);
         usersRepository.deleteById(addedUserDtoId);
         invoicesRepository.deleteById(addedInvoiceId);
-    }
-
-    @Test
-    public void shouldUpdateInvoice() {
-
-        // Given
-        Invoices invoice = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-
-        // When
-        invoicesRepository.save(invoice);
-        invoice.setNumber("02/2022");
-        invoicesService.update(invoice);
-        Long invoiceId = invoice.getId();
-        Invoices actualInvoice = invoicesService.getOne(invoiceId);
-
-        // Then
-        assertTrue(invoicesRepository.existsById(invoiceId));
-        assertEquals("02/2022", actualInvoice.getNumber());
-
-        // Clean Up
-        invoicesRepository.deleteById(invoiceId);
     }
 
     @Test

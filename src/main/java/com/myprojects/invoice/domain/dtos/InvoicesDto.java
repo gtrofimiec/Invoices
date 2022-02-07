@@ -30,17 +30,7 @@ public class InvoicesDto {
     @JsonProperty
     private CustomersDto customerDto;
     @JsonProperty
-    private List<ProductsDto> productsDtoList = new ArrayList<>();
+    private List<ProductsDto> productsDtoList;
     @JsonProperty
     private UsersDto userDto;
-
-//    public InvoicesDto(String number, Date date, BigDecimal netSum, BigDecimal vatSum, BigDecimal grossSum,
-//                       String paymentMethod) {
-//        this.number = number;
-//        this.date = date;
-//        this.netSum = netSum;
-//        this.vatSum = vatSum;
-//        this.grossSum = grossSum;
-//        this.paymentMethod = paymentMethod;
-//    }
 }
