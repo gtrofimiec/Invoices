@@ -53,4 +53,4 @@ I would like to add:
 
 ## Links:
 - frontend repo: https://github.com/gtrofimiec/invoices_frontend
-- last commit: 
+- last commit: https://github.com/gtrofimiec/Invoices/commit/a81947191aafe92b77c2b3672a0163a3ecddc533
