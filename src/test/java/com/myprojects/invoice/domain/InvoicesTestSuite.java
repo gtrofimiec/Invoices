@@ -1,11 +1,5 @@
 package com.myprojects.invoice.domain;
 
-import com.myprojects.invoice.domain.dtos.CustomersDto;
-import com.myprojects.invoice.domain.dtos.ProductsDto;
-import com.myprojects.invoice.domain.dtos.UsersDto;
-import com.myprojects.invoice.facade.CustomersFacade;
-import com.myprojects.invoice.facade.ProductsFacade;
-import com.myprojects.invoice.facade.UserFacade;
 import com.myprojects.invoice.repositories.CustomersRepository;
 import com.myprojects.invoice.repositories.InvoicesRepository;
 import com.myprojects.invoice.repositories.ProductsRepository;
@@ -21,12 +15,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -56,10 +50,10 @@ public class InvoicesTestSuite {
         long currentNumberOfInvoices = invoicesRepository.findAll().stream()
                 .filter(c -> !c.isDeleted())
                 .count();
-        Invoices invoice1 = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-        Invoices invoice2 = new Invoices("2/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
+        Invoices invoice1 = new Invoices("1/2022", LocalDate.now(), BigDecimal.valueOf(10.00),
+                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka", LocalDate.now());
+        Invoices invoice2 = new Invoices("2/2022", LocalDate.now(), BigDecimal.valueOf(10.00),
+                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka", LocalDate.now());
 
         // When
         invoicesRepository.save(invoice1);
@@ -80,10 +74,10 @@ public class InvoicesTestSuite {
     public void shouldFindInvoiceById() {
 
         // Given
-        Invoices invoice1 = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-        Invoices invoice2 = new Invoices("2/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
+        Invoices invoice1 = new Invoices("1/2022", LocalDate.now(), BigDecimal.valueOf(10.00),
+                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30), "gotówka", LocalDate.now());
+        Invoices invoice2 = new Invoices("2/2022", LocalDate.now(), BigDecimal.valueOf(10.00),
+                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30), "gotówka",LocalDate.now());
 
         // When
         invoicesRepository.save(invoice1);
@@ -104,12 +98,13 @@ public class InvoicesTestSuite {
     public void shouldSaveAndDeleteInvoice() {
 
         // Given
-        Invoices invoice = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
+        Invoices invoice = new Invoices("1/2022", LocalDate.now(), BigDecimal.valueOf(10.00),
+                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30), "gotówka", LocalDate.now());
         Customers customer = new Customers("Jan Kowalski","5630016732", "Ulica", "22-100",
                 "Chełm");
-        Users user = new Users("Marian","5278451874", "Własna 2", "22-200", "Włodawa");
-        Products product = new Products("name", 23,BigDecimal.valueOf(10.00),
+        Users user = new Users("Marian","5278451874", "Własna 2", "22-200",
+                "Włodawa", "bank", "path");
+        Products product = new Products("name", "51.20-51.20", "item", 23, BigDecimal.valueOf(10.00),
                 BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30));
 
         // When
@@ -148,10 +143,10 @@ public class InvoicesTestSuite {
         long currentNumberOfInvoices = invoicesRepository.findAll().stream()
                 .filter(c -> !c.isDeleted())
                 .count();
-        Invoices invoice1 = new Invoices("1/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
-        Invoices invoice2 = new Invoices("2/2022", Date.from(Instant.now()), BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30),"gotówka");
+        Invoices invoice1 = new Invoices("1/2022", LocalDate.now(), BigDecimal.valueOf(10.00),
+                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30), "gotówka", LocalDate.now());
+        Invoices invoice2 = new Invoices("2/2022", LocalDate.now(), BigDecimal.valueOf(10.00),
+                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30), "gotówka", LocalDate.now());
 
         // When
         invoicesRepository.save(invoice1);

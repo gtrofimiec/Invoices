@@ -43,6 +43,17 @@ public class Users {
     private String town;
 
     @NotNull
+    @Column(name="bank")
+    private String bank;
+
+    @NotNull
+    @Column(name="account_number")
+    private String accountNumber;
+
+    @Column(name="pdf_path")
+    private String pdfPath;
+
+    @NotNull
     @Column(name = "active")
     private boolean active = false;
 
@@ -58,12 +69,15 @@ public class Users {
     @Column(name = "deleted")
     private boolean deleted = false;
 
-    public Users(String fullName, String nip, String street, String postCode, String town) {
+    public Users(String fullName, String nip, String street, String postCode, String town, String bank,
+                 String pdfPath) {
         this.fullName = fullName;
         this.nip = nip;
         this.street = street;
         this.postCode = postCode;
         this.town = town;
+        this.bank = bank;
+        this.pdfPath = pdfPath;
         this.invoicesList = new ArrayList<>();
     }
 }

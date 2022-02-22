@@ -28,6 +28,14 @@ public class Products {
     private String name;
 
     @NotNull
+    @Column(name="pkwiu")
+    private String pkwiu;
+
+    @NotNull
+    @Column(name="measure_unit")
+    private String measureUnit;
+
+    @NotNull
     @Column(name="vat_rate")
     private int vatRate;
 
@@ -54,8 +62,11 @@ public class Products {
     @Column(name = "deleted")
     private boolean deleted = false;
 
-    public Products(String name, int vatRate, BigDecimal netPrice, BigDecimal vatValue, BigDecimal grossPrice) {
+    public Products(String name, String pkwiu, String measureUnit, int vatRate, BigDecimal netPrice,
+                    BigDecimal vatValue, BigDecimal grossPrice) {
         this.name = name;
+        this.pkwiu = pkwiu;
+        this.measureUnit = measureUnit;
         this.vatRate = vatRate;
         this.netPrice = netPrice;
         this.vatValue = vatValue;

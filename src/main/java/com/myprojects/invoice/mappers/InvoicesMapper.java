@@ -29,6 +29,7 @@ public class InvoicesMapper {
             invoice.setVatSum(invoiceDto.getVatSum());
             invoice.setGrossSum(invoiceDto.getGrossSum());
             invoice.setPaymentMethod(invoiceDto.getPaymentMethod());
+            invoice.setPaymentDate(invoiceDto.getPaymentDate());
             invoice.setCustomer(customersMapper.mapToCustomer(invoiceDto.getCustomerDto()));
             invoice.setProductsList(productsMapper.mapToProductsList(invoiceDto.getProductsDtoList()));
             invoice.setUser(userMapper.mapToUser(invoiceDto.getUserDto()));
@@ -44,6 +45,7 @@ public class InvoicesMapper {
             invoiceDto.setVatSum(invoice.getVatSum());
             invoiceDto.setGrossSum(invoice.getGrossSum());
             invoiceDto.setPaymentMethod(invoice.getPaymentMethod());
+            invoiceDto.setPaymentDate(invoice.getPaymentDate());
             invoiceDto.setCustomerDto(customersMapper.mapToCustomerDto(invoice.getCustomer()));
             invoiceDto.setProductsDtoList(productsMapper.mapToProductsDtoList(invoice.getProductsList()));
             invoiceDto.setUserDto(userMapper.mapToUserDto(invoice.getUser()));

@@ -24,5 +24,7 @@ public class CustomersDto {
     @JsonProperty
     private String town;
     @JsonProperty
+    private String mail;
+    @JsonProperty
     private List<InvoicesDto> invoicesDtoList = new ArrayList<>();
 }

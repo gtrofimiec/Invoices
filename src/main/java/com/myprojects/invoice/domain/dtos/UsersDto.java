@@ -24,6 +24,12 @@ public class UsersDto {
     @JsonProperty
     private String town;
     @JsonProperty
+    private String bank;
+    @JsonProperty
+    String accountNumber;
+    @JsonProperty
+    private String pdfPath;
+    @JsonProperty
     private boolean active;
     @JsonProperty
     private List<InvoicesDto> invoicesDtoList = new ArrayList<>();

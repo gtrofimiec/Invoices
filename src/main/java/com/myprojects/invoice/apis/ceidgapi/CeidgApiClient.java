@@ -23,11 +23,11 @@ public class CeidgApiClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(CeidgApiClient.class);
 
     private final RestTemplate restTemplate;
-    private final CeidgApiConfig ceidgApiConfig;
+//    private final CeidgApiConfig ceidgApiConfig;
 
-    public CeidgApiClient(RestTemplate restTemplate, CeidgApiConfig ceidgApiConfig) {
+    public CeidgApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.ceidgApiConfig = ceidgApiConfig;
+//        this.ceidgApiConfig = ceidgApiConfig;
     }
 
     public CeidgApiDto getCeidgData(String nip, String endpoint, String token) {

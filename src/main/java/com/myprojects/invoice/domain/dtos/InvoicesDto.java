@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class InvoicesDto {
     @JsonProperty
     private String number;
     @JsonProperty
-    private Date date;
+    private LocalDate date;
     @JsonProperty
     private BigDecimal netSum;
     @JsonProperty
@@ -26,6 +26,8 @@ public class InvoicesDto {
     private BigDecimal grossSum;
     @JsonProperty
     private String paymentMethod;
+    @JsonProperty
+    private LocalDate paymentDate;
     @JsonProperty
     private CustomersDto customerDto;
     @JsonProperty

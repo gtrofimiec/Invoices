@@ -17,6 +17,10 @@ public class ProductsDto {
     @JsonProperty
     private String name;
     @JsonProperty
+    private String pkwiu;
+    @JsonProperty
+    private String measureUnit;
+    @JsonProperty
     private int vatRate;
     @JsonProperty
     private BigDecimal netPrice;

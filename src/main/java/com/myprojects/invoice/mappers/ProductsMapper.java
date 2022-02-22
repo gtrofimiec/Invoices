@@ -16,6 +16,8 @@ public class ProductsMapper {
         Products product = new Products();
             product.setId(productDto.getId());
             product.setName(productDto.getName());
+            product.setPkwiu(productDto.getPkwiu());
+            product.setMeasureUnit(productDto.getMeasureUnit());
             product.setVatRate(productDto.getVatRate());
             product.setNetPrice(productDto.getNetPrice());
             product.setVatValue(productDto.getVatValue());
@@ -27,6 +29,8 @@ public class ProductsMapper {
         ProductsDto productDto = new ProductsDto();
             productDto.setId(product.getId());
             productDto.setName(product.getName());
+            productDto.setPkwiu(product.getPkwiu());
+            productDto.setMeasureUnit(product.getMeasureUnit());
             productDto.setVatRate(product.getVatRate());
             productDto.setNetPrice(product.getNetPrice());
             productDto.setVatValue(product.getVatValue());

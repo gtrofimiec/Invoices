@@ -38,6 +38,9 @@ public class Customers {
     @Column(name="town")
     private String town;
 
+    @Column(name="mail")
+    private String mail;
+
     @OneToMany(targetEntity = Invoices.class,
             mappedBy = "customer",
             cascade = {

@@ -9,20 +9,22 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.io.File;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class SimpleEmailServiceTest {
+class SimpleMailServiceTest {
 
     @InjectMocks
-    private SimpleEmailService simpleEmailService;
+    private SimpleMailService simpleMailService;
 
     @Mock
     private JavaMailSender javaMailSender;
 
     @Test
-    public void shouldSendEmail() {
+    public void shouldSendInformationMail() {
 
         //Given
         Mail mail = new Mail("test@test.com", "Test", "Test Message", null);
@@ -32,7 +34,7 @@ class SimpleEmailServiceTest {
         mailMessage.setText(mail.getMessage());
 
         //When
-        simpleEmailService.send(mail);
+        simpleMailService.sendInformation(mail);
 
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);

@@ -21,6 +21,7 @@ public class CustomersMapper {
             customer.setStreet(customerDto.getStreet());
             customer.setPostCode(customerDto.getPostCode());
             customer.setTown(customerDto.getTown());
+            customer.setMail(customerDto.getMail());
         return customer;
     }
 
@@ -33,6 +34,7 @@ public class CustomersMapper {
             customerDto.setStreet(customer.getStreet());
             customerDto.setPostCode(customer.getPostCode());
             customerDto.setTown(customer.getTown());
+            customerDto.setMail(customer.getMail());
         return customerDto;
     }
 

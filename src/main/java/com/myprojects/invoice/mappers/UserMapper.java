@@ -20,6 +20,9 @@ public class UserMapper {
             user.setStreet(userDto.getStreet());
             user.setPostCode(userDto.getPostCode());
             user.setTown(userDto.getTown());
+            user.setBank(userDto.getBank());
+            user.setPdfPath(userDto.getPdfPath());
+            user.setAccountNumber(userDto.getAccountNumber());
             user.setActive(userDto.isActive());
         return user;
     }
@@ -32,6 +35,9 @@ public class UserMapper {
             userDto.setStreet(user.getStreet());
             userDto.setPostCode(user.getPostCode());
             userDto.setTown(user.getTown());
+            userDto.setBank(user.getBank());
+            userDto.setPdfPath(user.getPdfPath());
+            userDto.setAccountNumber(user.getAccountNumber());
             userDto.setActive(user.isActive());
         return userDto;
     }

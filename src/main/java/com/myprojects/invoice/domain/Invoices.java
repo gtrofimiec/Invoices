@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -28,7 +28,7 @@ public class Invoices {
 
     @NotNull
     @Column(name="date")
-    private Date date;
+    private LocalDate date;
 
     @NotNull
     @Column(name="net_sum")
@@ -45,6 +45,10 @@ public class Invoices {
     @NotNull
     @Column(name="payment_method")
     private String paymentMethod;
+
+    @NotNull
+    @Column(name="payment_date")
+    private LocalDate paymentDate;
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
@@ -76,14 +80,15 @@ public class Invoices {
     @Column(name = "deleted")
     private boolean deleted = false;
 
-    public Invoices(String number, Date date, BigDecimal netSum, BigDecimal vatSum, BigDecimal grossSum,
-                    String paymentMethod) {
+    public Invoices(String number, LocalDate date, BigDecimal netSum, BigDecimal vatSum, BigDecimal grossSum,
+                    String paymentMethod, LocalDate paymentDate) {
         this.number = number;
         this.date = date;
         this.netSum = netSum;
         this.vatSum = vatSum;
         this.grossSum = grossSum;
         this.paymentMethod = paymentMethod;
+        this.paymentDate = paymentDate;
         this.productsList = new ArrayList<>();
     }
 }
