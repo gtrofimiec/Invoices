@@ -3,10 +3,10 @@ package com.myprojects.invoice.services;
 import com.myprojects.invoice.domain.Mail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -21,13 +21,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SimpleMailService {
 
+    @Autowired
     private final JavaMailSender javaMailSender;
+    @Autowired
     private final MailCreatorService mailCreatorService;
 
-    public boolean sendInvoice(final Mail mail) {
+    public boolean sendMail(final Mail mail) {
         log.info("Starting email preparation...");
         try {
-            javaMailSender.send(createInvoiceMessage(mail));
+            javaMailSender.send(createMessage(mail));
             log.info("Email has been sent.");
             return true;
         } catch(MailException e) {
@@ -36,22 +38,8 @@ public class SimpleMailService {
         }
     }
 
-    public void sendInformation(final Mail mail) {
-        log.info("Starting email preparation...");
-
-        try {
-//            SimpleMailMessage mailMessage = createMailMessage(mail);
-//            javaMailSender.send(mailMessage);
-//            log.info("Email has been sent.");
-            javaMailSender.send(createInformationMailMessage(mail));
-            log.info("Email has been sent.");
-        } catch(MailException e) {
-            log.error("Failed to process email sending: " + e.getMessage(), e);
-        }
-    }
-
-
-    private MimeMessagePreparator createInvoiceMessage(final Mail mail) {
+    @Contract(pure = true)
+    private @NotNull MimeMessagePreparator createMessage(final Mail mail) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
             messageHelper.setTo(mail.getMailTo());
@@ -73,22 +61,4 @@ public class SimpleMailService {
             });
         };
     }
-
-    private @NotNull SimpleMailMessage createInformationMailMessage(final @NotNull Mail mail) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getMailTo());
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mailCreatorService.buildInformationEmail(mail.getMessage()));
-        return mailMessage;
-    }
-
-//    private @NotNull SimpleMailMessage createMailMessage(final @NotNull Mail mail) {
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//
-//        mailMessage.setTo(mail.getMailTo());
-//        mailMessage.setSubject(mail.getSubject());
-//        mailMessage.setText(mail.getMessage());
-//        Optional.ofNullable(mail.getToCc()).ifPresent(cc -> mailMessage.setCc(mail.getToCc()));
-//        return mailMessage;
-//    }
 }

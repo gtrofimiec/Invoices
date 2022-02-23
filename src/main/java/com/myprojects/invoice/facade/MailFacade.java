@@ -16,6 +16,6 @@ public class MailFacade {
 
     public boolean sendMail(MailDto mailDto) {
         Mail mail = mailMapper.mapToMail(mailDto);
-        return simpleMailService.sendInvoice(mail);
+        return simpleMailService.sendMail(mail);
     }
 }

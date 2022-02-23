@@ -30,7 +30,7 @@ public class EmailScheduler {
                 .filter(i -> i.getDate().isBefore(LocalDate.now().plusDays(1)))
                 .map(Invoices::getGrossSum)
                 .reduce(BigDecimal.valueOf(0), BigDecimal::add);
-        simpleMailService.sendInformation(new Mail(
+        simpleMailService.sendMail(new Mail(
                 adminConfig.getAdminMail(),
                 SUBJECT,
                 "Sprzedaż do dnia " + LocalDate.now()+ ": " + size + " zł",
@@ -39,15 +39,15 @@ public class EmailScheduler {
                 null
         ));
     }
-
-    public void sendInvoice(String mailTo, File invoice) {
-        simpleMailService.sendInvoice(new Mail(
-                mailTo,
-                "Faktura VAT",
-                "Witam\nW załączniku faktura.",
-                null,
-                invoice.getName(),
-                invoice
-        ));
-    }
+//
+//    public void sendInvoice(String mailTo, File invoice) {
+//        simpleMailService.sendMail(new Mail(
+//                mailTo,
+//                "Faktura VAT",
+//                "Witam\nW załączniku faktura.",
+//                null,
+//                invoice.getName(),
+//                invoice
+//        ));
+//    }
 }
