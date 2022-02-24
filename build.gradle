@@ -32,6 +32,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
 }
 
+jar {
+    enabled = false
+}
+
 test {
     useJUnitPlatform()
 }
