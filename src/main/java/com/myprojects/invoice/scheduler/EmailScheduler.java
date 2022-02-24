@@ -39,15 +39,4 @@ public class EmailScheduler {
                 null
         ));
     }
-//
-//    public void sendInvoice(String mailTo, File invoice) {
-//        simpleMailService.sendMail(new Mail(
-//                mailTo,
-//                "Faktura VAT",
-//                "Witam\nW załączniku faktura.",
-//                null,
-//                invoice.getName(),
-//                invoice
-//        ));
-//    }
 }

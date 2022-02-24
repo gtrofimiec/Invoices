@@ -44,7 +44,7 @@ public class SimpleMailService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.buildInvoiceEmail(mail.getMessage()), true);
+            messageHelper.setText(mailCreatorService.buildEmail(mail.getMessage()), true);
             Optional.ofNullable(mail.getToCc()).ifPresent(cc -> {
                 try {
                     mimeMessage.addRecipients(Message.RecipientType.CC, cc);
