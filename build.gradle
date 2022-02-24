@@ -25,7 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     testImplementation 'junit:junit:4.13.2'
 //    runtimeOnly 'mysql:mysql-connector-java'
-    runtimeOnly 'org.posgresql:postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
 //    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
