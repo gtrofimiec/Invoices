@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "ceidg.api.test.token",
+      "type": "java.lang.String",
+      "description": "Description for ceidg.api.test.token."
+    }
+  ]
+}
