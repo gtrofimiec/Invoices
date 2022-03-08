@@ -4,6 +4,16 @@
       "name": "ceidg.api.test.token",
       "type": "java.lang.String",
       "description": "Description for ceidg.api.test.token."
+    },
+    {
+      "name": "ceidg.api.prod.token",
+      "type": "java.lang.String",
+      "description": "Description for ceidg.api.prod.token."
+    },
+    {
+      "name": "admin.mail",
+      "type": "java.lang.String",
+      "description": "Description for admin.mail."
     }
   ]
 }
