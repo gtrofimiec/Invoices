@@ -13,7 +13,7 @@ public final class CeidgApiConfig {
     @Value("https://dane.biznes.gov.pl/api/ceidg/v1/firma?")
     private String ceidgApiProdEndpoint;
     @Value("${ceidg.api.test.token}")
-    private String tokenTest;
+    private String testToken;
     @Value("${ceidg.api.prod.token}")
-    private String token;
+    private String prodToken;
 }

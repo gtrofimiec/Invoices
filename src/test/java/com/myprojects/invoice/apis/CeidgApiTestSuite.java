@@ -26,7 +26,7 @@ public class CeidgApiTestSuite {
         //Given
         String nip = "2367852376";
         String endpoint = ceidgApiConfig.getCeidgApiTestEndpoint();
-        String token = ceidgApiConfig.getTokenTest();
+        String token = ceidgApiConfig.getTestToken();
 
         //When
         CeidgApiDto ceidgApiDto = ceidgApiClient.getCeidgData(nip, endpoint, token);

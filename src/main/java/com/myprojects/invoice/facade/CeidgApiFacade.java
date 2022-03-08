@@ -16,6 +16,6 @@ public class CeidgApiFacade {
 
     public CeidgApiDto getCustomerData(String nip) throws CeidgDataNotFoundException {
         return ceidgApiClient.getCeidgData(nip, ceidgApiConfig.getCeidgApiProdEndpoint(),
-                ceidgApiConfig.getToken());
+                ceidgApiConfig.getProdToken());
     }
 }
