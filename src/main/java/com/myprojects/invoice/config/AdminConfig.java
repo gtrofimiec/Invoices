@@ -12,6 +12,4 @@ public class AdminConfig {
     private String adminMail;
     @Value("${admin.name}")
     private String adminName;
-    @Value("${info.company.name}")
-    private String companyName;
 }
