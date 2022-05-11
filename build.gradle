@@ -23,14 +23,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
+
     testImplementation 'junit:junit:4.13.2'
-//    runtimeOnly 'mysql:mysql-connector-java'
+
+    runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'com.h2database:h2'
+
     compileOnly 'org.projectlombok:lombok'
-//    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
+
+//    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 jar {
