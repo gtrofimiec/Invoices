@@ -22,6 +22,8 @@ public class UserMapper {
             user.setTown(userDto.getTown());
             user.setBank(userDto.getBank());
             user.setPdfPath(userDto.getPdfPath());
+            user.setUserLogin(userDto.getUserLogin());
+            user.setUserPass(userDto.getUserPass());
             user.setAccountNumber(userDto.getAccountNumber());
             user.setActive(userDto.isActive());
         return user;
@@ -37,6 +39,8 @@ public class UserMapper {
             userDto.setTown(user.getTown());
             userDto.setBank(user.getBank());
             userDto.setPdfPath(user.getPdfPath());
+            userDto.setUserLogin(user.getUserLogin());
+            userDto.setUserPass(user.getUserPass());
             userDto.setAccountNumber(user.getAccountNumber());
             userDto.setActive(user.isActive());
         return userDto;

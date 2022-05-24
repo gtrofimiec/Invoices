@@ -26,9 +26,13 @@ public class UsersDto {
     @JsonProperty
     private String bank;
     @JsonProperty
-    String accountNumber;
+    private String accountNumber;
     @JsonProperty
     private String pdfPath;
+    @JsonProperty
+    private String userLogin;
+    @JsonProperty
+    private String userPass;
     @JsonProperty
     private boolean active;
     @JsonProperty

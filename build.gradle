@@ -28,7 +28,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 
     runtimeOnly 'mysql:mysql-connector-java'
-    runtimeOnly 'org.postgresql:postgresql'
+//    runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'com.h2database:h2'
 
     compileOnly 'org.projectlombok:lombok'

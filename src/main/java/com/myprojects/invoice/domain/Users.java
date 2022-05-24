@@ -53,6 +53,12 @@ public class Users {
     @Column(name="pdf_path")
     private String pdfPath;
 
+    @Column(name="user_login")
+    private String userLogin;
+
+    @Column(name="user_pass")
+    private String userPass;
+
     @NotNull
     @Column(name = "active")
     private boolean active = false;
@@ -70,7 +76,7 @@ public class Users {
     private boolean deleted = false;
 
     public Users(String fullName, String nip, String street, String postCode, String town, String bank,
-                 String pdfPath) {
+                 String pdfPath, String userLogin, String userPass) {
         this.fullName = fullName;
         this.nip = nip;
         this.street = street;
@@ -78,6 +84,8 @@ public class Users {
         this.town = town;
         this.bank = bank;
         this.pdfPath = pdfPath;
+        this.userLogin = userLogin;
+        this.userPass = userPass;
         this.invoicesList = new ArrayList<>();
     }
 }
