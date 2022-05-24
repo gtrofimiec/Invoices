@@ -48,8 +48,9 @@ The project consists of a backend layer based on REST API and a frontend layer b
 
 ## Ideas for improvement
 I would like to add:
-- User logging,
-- generating invoices to pdf and printing them.
+- user logging,
+- ~~generating invoices to pdf and printing them~~,
+- SOAP implementation for connections with REGON Api.
 
 ## Links:
 - frontend repo: https://github.com/gtrofimiec/invoices_frontend

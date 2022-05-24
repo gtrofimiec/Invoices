@@ -104,8 +104,8 @@ public class InvoicesTestSuite {
                 "Chełm");
         Users user = new Users("Marian","5278451874", "Własna 2", "22-200",
                 "Włodawa", "bank", "path", "login", "pass");
-        Products product = new Products("name", "51.20-51.20", "item", 23, BigDecimal.valueOf(10.00),
-                BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30));
+        Products product = new Products("name", "51.20-51.20", "item", 23,
+                BigDecimal.valueOf(10.00), BigDecimal.valueOf(2.30),BigDecimal.valueOf(12.30));
 
         // When
         Customers addedCustomer = customersService.save(customer);
