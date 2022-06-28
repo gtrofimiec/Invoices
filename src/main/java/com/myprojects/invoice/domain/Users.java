@@ -69,7 +69,8 @@ public class Users {
                     CascadeType.DETACH,
                     CascadeType.REFRESH,
                     CascadeType.PERSIST
-            }, fetch = FetchType.EAGER)
+            },
+            fetch = FetchType.EAGER)
     private List<Invoices> invoicesList;
 
     @Column(name = "deleted")
